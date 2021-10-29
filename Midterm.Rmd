@@ -12,9 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Markdown
 
 ```{r}
+library(magrittr)
+library(tidyselect)
 library(readxl)
 library(tidyr)
 library(base)
+library(dplyr)
+library(stringr)
 Pest <- read.csv("Pesticides.csv")
 Pest <- Pest[Pest$Pesticide != "",]
 
@@ -97,7 +101,7 @@ strawb1 <- data.frame("year" = strawb$Year, "state" = strawb$State, "measurement
 # strawb_fungi <- strawb1 %>% filter((chemical.type=="FUNGICIDE"))
 # strawb_herb <- strawb1 %>% filter((chemical.type=="HERBICIDE"))
 # strawb_insect <- strawb1 %>% filter((chemical.type=="INSECTICIDE"))
-
+a <- distinct(strawb1, `measurement.s.`)
 
 
 
