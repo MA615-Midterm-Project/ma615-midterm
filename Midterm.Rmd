@@ -101,7 +101,14 @@ strawb1 <- data.frame("year" = strawb$Year, "state" = strawb$State, "measurement
 # strawb_fungi <- strawb1 %>% filter((chemical.type=="FUNGICIDE"))
 # strawb_herb <- strawb1 %>% filter((chemical.type=="HERBICIDE"))
 # strawb_insect <- strawb1 %>% filter((chemical.type=="INSECTICIDE"))
-a <- distinct(strawb1, `measurement.s.`)
+a <- unique(strawb1$ `measurement.s.`)
+measure_dollar <- strawb1[strawb1$measurement.s. == a[1],]
+measure_LB <- strawb1[strawb1$measurement.s. == a[2],]
+measure_LAAP <- strawb1[strawb1$measurement.s. == a[3],]
+measure_LAyear <- strawb1[strawb1$measurement.s. == a[4],]
+measure_number <- strawb1[strawb1$measurement.s. == a[5],]
+measure_number <- strawb1[strawb1$measurement.s. == a[6],]
+
 
 
 
