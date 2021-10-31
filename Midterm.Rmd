@@ -19,6 +19,12 @@ library(tidyr)
 library(base)
 library(dplyr)
 library(stringr)
+library(ggplot2)
+library(tidyverse)
+library(maps)
+library(sf)
+library(ggplotply)
+library(cowplot)
 Pest <- read.csv("Pesticides.csv")
 Pest <- Pest[Pest$Pesticide != "",]
 
@@ -107,10 +113,78 @@ measure_LB <- strawb1[strawb1$measurement.s. == a[2],]
 measure_LAAP <- strawb1[strawb1$measurement.s. == a[3],]
 measure_LAyear <- strawb1[strawb1$measurement.s. == a[4],]
 measure_number <- strawb1[strawb1$measurement.s. == a[5],]
-measure_number <- strawb1[strawb1$measurement.s. == a[6],]
-
+measure_AB <- strawb1[strawb1$measurement.s. == a[6],]
 
 
 
 ```
 
+
+# measure_LB
+```{r}
+
+# yearly value of strawberries in each state
+ggplot(data=measure_LB) +
+  geom_bar(mapping = aes(x=factor(chemical.type, levels=c("organic"="ORGANIC STATUS", "fungi"="FUNGICIDE", "herb"="HERBICIDE", "insect"="INSECTICIDE", "other" = "OTHER", "fert"="FERTILIZER")), y=log(value), fill=state), 
+           stat="identity", position= 'dodge', alpha=0.8) +
+  labs(x="year", y="log of measurement in LB")+
+  coord_polar()+
+  facet_wrap(~factor(year)) +
+  theme_bw()+
+  theme(text=element_text(size=25))
+ggsave('plot1.png', width=20, height=20, dpi=450)
+
+#chemical type related value in each state in LB
+
+for (i in 1:length(unique(measure_LB$chemical.type))) {
+  print(ggplot(data = measure_LB[measure_LB$chemical.type == unique(measure_LB$chemical.type)[i],])+ 
+  geom_bar(mapping= aes(x = chemical, y= log(value), fill=chemical.type), 
+           stat='identity', alpha= 0.8)+
+  labs(title="") +
+  theme(text=element_text(size=15))+
+  coord_polar()+
+  theme_bw())
+}
+
+ggsave('plot2.1.png', width=20, height=20, dpi=450)
+ggsave('plot2.2.png', width=20, height=20, dpi=450)
+ggsave('plot2.3.png', width=20, height=20, dpi=450)
+ggsave('plot2.4.png', width=20, height=20, dpi=450)
+ggsave('plot2.5.png', width=20, height=20, dpi=450)
+ggsave('plot2.6.png', width=20, height=20, dpi=450)
+
+
+#chemical type related production value in each state   
+ggplot(data = measure_LB, mapping= aes(x = as.factor(state), y= log(value), color =chemical.type))+ 
+  geom_point(alpha= 0.5)+
+  geom_line()+
+  labs(x="state", y = "log of measurement in LB") +
+  theme_bw()
+
+ggplot(data = measure_LB)+ 
+  geom_bar(mapping= aes(x = year, y= log(value), fill=chemical.type), 
+           stat='identity',  position="dodge", alpha= 0.8)+
+  geom_smooth(method = 'loess', aes(x=year, y=log(value)), formula= y ~x)+
+  labs(x="state", y = "log of measurement in LB") +
+  theme_bw()
+
+#realtionship between chemical type and production value in lb
+ggplot(measure_LB, aes(x = chemical.type, y = log(value))) +
+  geom_jitter(alpha = 0.5, color = "tomato") +
+  geom_boxplot(alpha = 0)+
+  geom_smooth(method="loess",formula= y~ x)
+  
+
+
+```
+
+# measure_dollar
+```{r}
+
+
+
+
+
+
+
+```
