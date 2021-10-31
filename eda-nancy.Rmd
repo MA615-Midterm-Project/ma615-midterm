@@ -1,0 +1,144 @@
+---
+title: "EDA strawb"
+author: "iamqb"
+date: "10/30/2021"
+output: html_document
+---
+
+```{R}
+
+source(file = "strawbData.R", echo = TRUE)
+
+```
+
+# Bubble chart
+```{R}
+
+measure_dollar %>%
+  arrange(desc(value)) %>%
+  ggplot(aes(x=year, y=state, size=value, fill=chemical.type)) +
+    geom_point(alpha=0.5, shape=21, color="black") +
+    scale_size(range = c(.1, 24), name="Population (M)") +
+    theme(legend.position="bottom") +
+    ylab("state") +
+    xlab("year") +
+    theme(legend.position = "none")
+
+measure_LAAP %>%
+  arrange(desc(value)) %>%
+  ggplot(aes(x=year, y=state, size=value, fill=chemical.type)) +
+    geom_point(alpha=0.5, shape=21, color="black") +
+    scale_size(range = c(.1, 24), name="Population (M)") +
+    theme(legend.position="bottom") +
+    ylab("state") +
+    xlab("year") +
+    theme(legend.position = "none")
+
+
+```
+
+
+# lollipop chart
+## measure_LAAP 
+```{R}
+
+ggplot(measure_LAAP) +
+  geom_segment(aes(x=chemical, xend=chemical, y=0, yend=value)) +
+  geom_point(aes(x=chemical, y=value), color = "orange", size=1) +
+  theme_light() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  xlab("Chemical") +
+  ylab("Value")+ 
+  facet_grid(rows = vars(state), cols = vars(year))
+
+data1.0 <- measure_LAAP %>% filter(value < 15)
+ggplot(data1.0) +
+  geom_segment(aes(x=chemical.type, xend=chemical.type, y=0, yend=value)) +
+  geom_point(aes(x=chemical.type, y=value), color = "orange", size=1) +
+  theme_light() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  xlab("Chemical") +
+  ylab("Value")+ 
+  facet_grid(rows = vars(state), cols = vars(year))
+
+data2.0 <- measure_LAAP %>% filter(value < 1)
+ggplot(data2.0) +
+  geom_segment(aes(x=chemical, xend=chemical, y=0, yend=value)) +
+  geom_point(aes(x=chemical, y=value), color = "orange", size=1) +
+  theme_light() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  xlab("Chemical") +
+  ylab("Value")+ 
+  facet_grid(rows = vars(state), cols = vars(year))
+
+```
+
+## measure_LAyear
+```{R}
+
+ggplot(measure_LAyear) +
+  geom_segment(aes(x=chemical, xend=chemical, y=0, yend=value)) +
+  geom_point(aes(x=chemical, y=value), color = "orange", size=1) +
+  theme_light() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  xlab("Chemical") +
+  ylab("Value")+ 
+  facet_grid(rows = vars(state), cols = vars(year))
+
+```
+
+# ridgeline plot
+
+```{R}
+library(ggridges)
+
+ggplot(measure_LAAP) +
+  geom_density_ridges(aes(y=value, x=chemical, fill=value)) 
+```
+
+# Circular barplot with groups
+```{R}
+
+data3.0 <- measure_LAAP
+data3.0$id <- seq(1, nrow(data3.0))
+label_data <- data3.0
+number_of_bar <- nrow(label_data)
+angle <- 90 - 360 * (label_data$id-0.5) /number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+label_data$hjust <- ifelse( angle < -90, 1, 0)
+label_data$angle <- ifelse(angle < -90, angle+180, angle)
+
+ggplot(measure_LAAP, aes(x=chemical, y=log(value), fill=state)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
+  geom_bar(stat="identity", alpha=0.5) +
+  ylim(-100,120) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1,4), "cm") 
+  ) +
+  coord_polar()+
+  geom_text(data=label_data, aes(x=id, y=value+10, label=chemical, hjust=hjust), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE ) 
+ 
+```
+
+## 
+
+
