@@ -23,8 +23,8 @@ library(ggplot2)
 library(tidyverse)
 library(maps)
 library(sf)
-library(ggplotply)
 library(cowplot)
+library(usmap)
 Pest <- read.csv("Pesticides.csv")
 Pest <- Pest[Pest$Pesticide != "",]
 
@@ -146,43 +146,22 @@ for (i in 1:length(unique(measure_LB$chemical.type))) {
   theme_bw())
 }
 
-ggsave('plot2.1.png', width=20, height=20, dpi=450)
-ggsave('plot2.2.png', width=20, height=20, dpi=450)
-ggsave('plot2.3.png', width=20, height=20, dpi=450)
-ggsave('plot2.4.png', width=20, height=20, dpi=450)
-ggsave('plot2.5.png', width=20, height=20, dpi=450)
-ggsave('plot2.6.png', width=20, height=20, dpi=450)
 
-
-#chemical type related production value in each state   
-ggplot(data = measure_LB, mapping= aes(x = as.factor(state), y= log(value), color =chemical.type))+ 
-  geom_point(alpha= 0.5)+
-  geom_line()+
-  labs(x="state", y = "log of measurement in LB") +
-  theme_bw()
-
-ggplot(data = measure_LB)+ 
-  geom_bar(mapping= aes(x = year, y= log(value), fill=chemical.type), 
-           stat='identity',  position="dodge", alpha= 0.8)+
-  geom_smooth(method = 'loess', aes(x=year, y=log(value)), formula= y ~x)+
-  labs(x="state", y = "log of measurement in LB") +
-  theme_bw()
-
-#realtionship between chemical type and production value in lb
-ggplot(measure_LB, aes(x = chemical.type, y = log(value))) +
-  geom_jitter(alpha = 0.5, color = "tomato") +
-  geom_boxplot(alpha = 0)+
-  geom_smooth(method="loess",formula= y~ x)
   
 
 
 ```
 
-# measure_dollar
+# map
 ```{r}
 
+map <-function(years = "2019",state = "CALIFORNIA", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
+usmap::plot_usmap(data = strawb1[strawb1$year==years& strawb1$state == state& strawb1$chemical == chemical & strawb1$`measurement.s.` == measurement,], values = "value", color = "red") +
+    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "", label = scales::comma)+ 
+    ggplot2::theme(legend.position = "right")
+}
 
-
+map()
 
 
 
