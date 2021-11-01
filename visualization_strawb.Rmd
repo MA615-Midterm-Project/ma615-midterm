@@ -19,6 +19,7 @@ library(maps)
 library(sf)
 library(cowplot)
 library(usmap)
+library(plotly)
 
 source(file = "strawbData.R", echo = TRUE)
 
@@ -29,7 +30,7 @@ source(file = "strawbData.R", echo = TRUE)
 ```{r}
 
 # yearly value of strawberries in each state
-function(measurement = "MEASURED IN LB"){
+plot1 <- function(measurement = "MEASURED IN LB"){
   
   if (measurement == "MEASURED IN LB"){
     
@@ -42,6 +43,7 @@ function(measurement = "MEASURED IN LB"){
   theme_bw()+
   theme(text=element_text(size=25))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
+  
     
   }
   
@@ -116,15 +118,17 @@ function(measurement = "MEASURED IN LB"){
   }  
 }
 
+plot1()
 
 ```
+
 
 # plot2
 ```{R}
 #chemical type related value in each state in LB
 
 # yearly value of strawberries in each state
-function(measurement = "MEASURED IN LB"){
+plot2 <- function(measurement = "MEASURED IN LB"){
   
   if (measurement == "MEASURED IN LB"){
     
@@ -205,7 +209,7 @@ function(measurement = "MEASURED IN LB"){
   }
 }
 
-  
+plot2()
 
 
 ```

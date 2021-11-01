@@ -11,6 +11,7 @@ library(maps)
 library(sf)
 library(cowplot)
 library(usmap)
+library(plotly)
 
 source(file = "strawbData.R", echo = FALSE)
 
@@ -22,17 +23,17 @@ source(file = "strawbData.R", echo = FALSE)
 plot1 <-function(para1){
   dataset <- strawb1 %>% 
     filter(measurement.s. == para1)
-  ggplot(data=measure_LB) +
+  ggplot(data=dataset) +
     geom_bar(mapping = aes(x=factor(chemical.type), y=log(value), fill=state), 
              stat="identity", position= 'dodge', alpha=0.8) +
-    labs(x="year", y="log of measurement in LB")+
+    labs(x="year", y=paste("log of", para1, sep = ""))+
     coord_polar()+
     facet_wrap(~factor(year)) +
     theme_bw()
 }
 
-#plot1("MEASURED IN LB")
-
+p1 <- plot1("MEASURED IN LB")
+ggplotly(p1)
 
 # plot2
 
