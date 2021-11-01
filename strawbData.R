@@ -89,3 +89,25 @@ measure_LAyear <- strawb1[strawb1$measurement.s. == a[4],]
 measure_number <- strawb1[strawb1$measurement.s. == a[5],]
 measure_AB <- strawb1[strawb1$measurement.s. == a[6],]
 
+
+#strawberry and toxin
+
+Pest <- read.csv("Pesticides.csv")
+
+
+
+Pest <- Pest[Pest$Pesticide != "",]
+strawb1%<>% mutate(chemical= str_trim(strawb1$chemical))
+Pest %<>% mutate(Pesticide = str_trim(Pest$Pesticide))
+Pest$chemical <- toupper(Pest$Pesticide)
+Pest<- Pest[, c(7,2,3,4,5,6)]
+straw_health<- strawb1 %>% inner_join(Pest,by="chemical")
+
+
+Pest1<- Pest%>%
+  pivot_longer(!chemical, names_to = "toxin", values_to = "level") 
+toxin_st<- strawb1 %>% inner_join(Pest1,by="chemical")
+toxin_st$level[toxin_st$level==""] <- NA
+toxin_st<- na.omit(toxin_st)
+
+
