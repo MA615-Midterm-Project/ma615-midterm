@@ -22,10 +22,10 @@ source(file = "strawbData.R", echo = FALSE)
 plot1 <-function(para1){
   dataset <- strawb1 %>% 
     filter(measurement.s. == para1)
-  ggplot(data=measure_LB) +
+  ggplot(data=dataset) +
     geom_bar(mapping = aes(x=factor(chemical.type), y=log(value), fill=state), 
              stat="identity", position= 'dodge', alpha=0.8) +
-    labs(x="year", y="log of measurement in LB")+
+    labs(x="year", y=paste("log of", para1, sep = ""))+
     coord_polar()+
     facet_wrap(~factor(year)) +
     theme_bw()
@@ -52,7 +52,23 @@ plot2 <-function(para1, para2, para3){
     theme_bw()
 }
 
-# plot2("MEASURED IN LB","ORGANIC STATUS", "CALIFORNIA")
+#plot2("MEASURED IN LB","ORGANIC STATUS", "CALIFORNIA")
+
+#plot3
+
+plot3 <-function(para1){
+  dataset <- toxin_st %>% 
+      filter(measurement.s. == para1)
+ggplot(data=dataset)+
+  geom_bar(mapping = aes(x=factor(toxin), y=log(value), fill=level), 
+           stat="identity", alpha=0.8) +
+  labs(x="toxin", y="value")+
+  facet_wrap(~factor(year)) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, hjust=0.5))
+}
+
+plot3("MEASURED IN LB")
 
 # map
 
@@ -78,5 +94,5 @@ map <-function(years = "2019",state = "CALIFORNIA",
     ggplot2::theme(legend.position = "right")
 }
 
-map()
+#map()
 
