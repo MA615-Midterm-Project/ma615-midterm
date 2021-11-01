@@ -25,6 +25,7 @@ library(maps)
 library(sf)
 library(cowplot)
 library(usmap)
+library(janitor)
 Pest <- read.csv("Pesticides.csv")
 Pest <- Pest[Pest$Pesticide != "",]
 
@@ -134,14 +135,14 @@ ggplot(data=measure_LB) +
   theme(text=element_text(size=25))
 ggsave('plot1.png', width=20, height=20, dpi=450)
 
-#chemical type related value in each state in LB
+#chemical related value in each chemical type
 
 for (i in 1:length(unique(measure_LB$chemical.type))) {
   print(ggplot(data = measure_LB[measure_LB$chemical.type == unique(measure_LB$chemical.type)[i],])+ 
   geom_bar(mapping= aes(x = chemical, y= log(value), fill=chemical.type), 
            stat='identity', alpha= 0.8)+
   labs(title="") +
-  theme(text=element_text(size=15))+
+  theme(text=element_text(size=12))+
   coord_polar()+
   theme_bw())
 }
@@ -162,6 +163,26 @@ usmap::plot_usmap(data = strawb1[strawb1$year==years& strawb1$state == state& st
 }
 
 map()
+
+
+
+
+```
+
+
+# strawberry combined with pesticide
+```{r}
+Pest <- read.csv("Pesticides.csv")
+Pest <- Pest[Pest$Pesticide != "",]
+strawb_insect <- strawb1 %>% filter((chemical.type=="INSECTICIDE"))
+Pest %<>% mutate(Pesticide = str_trim(Pest$Pesticide))
+Pest$chemical <- toupper(Pest$Pesticide)
+Pest<- Pest[, c(7,2,3,4,5,6)]
+straw_health<- strawb_insect %>% inner_join(Pest,by="chemical")
+
+
+
+
 
 
 
