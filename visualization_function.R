@@ -31,7 +31,7 @@ plot1 <-function(para1){
     theme_bw()
 }
 
-#plot1("MEASURED IN LB")
+plot1("MEASURED IN LB")
 
 
 # plot2
@@ -52,7 +52,7 @@ plot2 <-function(para1, para2, para3){
     theme_bw()
 }
 
-#plot2("MEASURED IN LB","ORGANIC STATUS", "CALIFORNIA")
+plot2("MEASURED IN LB","ORGANIC STATUS", "CALIFORNIA")
 
 #plot3
 
