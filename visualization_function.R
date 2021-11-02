@@ -12,6 +12,7 @@ library(sf)
 library(cowplot)
 library(usmap)
 library(plotly)
+library(leaflet)
 
 source(file = "strawbData.R", echo = FALSE)
 
@@ -35,7 +36,7 @@ plot1 <-function(para1){
 p1 <- plot1("MEASURED IN LB")
 ggplotly(p1)
 
-# plot2
+  # plot2
 
 #chemical type related value in each state in LB
 
@@ -69,7 +70,8 @@ ggplot(data=dataset)+
   theme(axis.text.x = element_text(angle = 90, hjust=0.5))
 }
 
-plot3("MEASURED IN LB")
+p3 <- plot3("MEASURED IN LB")
+ggplotly(p3)
 
 # map
 
@@ -96,4 +98,82 @@ map <-function(years = "2019",state = "CALIFORNIA",
 }
 
 #map()
+
+
+mo_map <- function(para1, para2){
+  
+  #input the measurement and the chemical type
+  state <- cbind("CALIFORNIA","FLORIDA","NEW YORK","NORTH CAROLINA","WASHINGTON","OREGON")
+  dataset_sub <- rep(NA, 6)
+  pacity <- rep(NA, 6)
+  
+  for(i in 1:6){
+    
+    dataset_sub = 0
+    STATE <- state[i]
+    dataset_sub <- strawb1 %>% 
+      filter(measurement.s. == "MEASURED IN LB") %>%
+      filter(chemical.type %in% "FUNGICIDE") %>%
+      filter(state == STATE) 
+    
+    dataset <- strawb1 %>% 
+      filter(measurement.s. == "MEASURED IN LB") %>%
+      filter(chemical.type %in% "FUNGICIDE")
+    
+    #chemical.type percentage on different state
+    pacity[i] <- sum(dataset_sub$value)/sum(dataset$value)
+    
+  }
+  
+  #color for different chemical.type
+  if(para2 == "ORGANIC STATUS")
+  {a = "tomato"}
+  else if(para2 == "FUNGICIDE")
+  {a = "steelblue"}
+  else if(para2 == "HERBICIDE")
+  {a = "plum"}
+  else if(para2 == "INSECTICIDE")
+  {a = "orange"}
+  else if(para2 == "OTHER")
+  {a = "slateblue"}
+  else if(para2 == "FERTILIZER")
+  {a = "slategrey"}
+  
+  data(state.fips)
+  mapstate=st_as_sf(map('state',plot = F,fill = T))
+  pop <- paste("State:",toupper(mapstate$ID))
+  
+  mymap<-leaflet(mapstate)%>%
+    
+    addTiles()%>%
+    
+    addPolygons(data = mapstate %>% filter(ID %in% c("california")),
+                stroke = T, fillOpacity = pacity[1], weight = 0.5,
+                color = a) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("florida")),
+                stroke = T, fillOpacity = pacity[2], weight = 0.5,
+                color = a) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("new york")),
+                stroke = T, fillOpacity = pacity[3], weight = 0.5,
+                color = a) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("north carolina")),
+                stroke = T, fillOpacity = pacity[4], weight = 0.5,
+                color = a) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("washington")),
+                stroke = T, fillOpacity = pacity[5], weight = 0.5,
+                color = a) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("oregon")),
+                stroke = T, fillOpacity = pacity[6], weight = 0.5,
+                color = a) %>%
+    
+    addPolygons(data=mapstate,label=pop,color='white',stroke = T,fillOpacity = 0,weight = 0.5)  
+  
+  mymap
+  #mymap %>% addProviderTiles(providers$HikeBike.HikeBike)
+  #mymap %>% addProviderTiles(providers$Esri.DeLorme)
+}
+
+mo_map("MEASURED IN LB", "FERTILIZER")
+
+
 
