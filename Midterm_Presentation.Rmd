@@ -70,7 +70,7 @@ After reviewing the summary of our dataset, we came up with following questions:
 
 \newpage
 
-# Strawberry and chemical Toxins
+# Strawberry and chemical toxins
 
 Here is our first approach of our question. After wrangled USDA strawberry dataset with Pesticide dataset, we tried to figure out how chemicals can impact the production or sales of strawberry. The plot below shows the bee toxins related chemicals are proportioned to larger strawberry production values which directly answered our second question.
 
