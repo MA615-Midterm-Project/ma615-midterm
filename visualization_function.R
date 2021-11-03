@@ -102,7 +102,6 @@ map <-function(years = "2019",state = "CALIFORNIA",
 
 library(htmltools)
 library(htmlwidgets)
-library(rgdal)
 
 mo_map <- function(para1, para2){
   
