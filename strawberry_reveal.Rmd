@@ -18,81 +18,96 @@ source(file = "visualization_function.R", echo = FALSE)
 ```
 
 <section data-background-opacity=0.2
-         data-background-image="images/straw_bkg.png"
+         data-background-image="images/IMG_1151.png"
          >
 
 
-   <h1 style="margin-top:35px;text-align:center;color=black;font-family:verdana;font-size:50px;">
+   <h1 style="margin-top:50px;text-align:center;color=black;font-family:charter;font-size:50px;">
 Midterm Project: Strawberries and Chemicals</h1>
 
-<p style="margin-top:480px;text-align:center;font-family:verdana;font-size:35px;color=black">Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen</p>
+<p style="margin-top:280px;text-align:center;font-family:charter;font-size:35px;color=black">Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen</p>
 
-#### image source --  https://www.prevention.com/food-nutrition/healthy-eating/a26537540/health-benefits-of-strawberries/
+
 
 # Data Cleaning for Strawberries {data-background="images/bg-01.png"}
 
-- remove empty/missing values
+- remove empty/missing values and reduce white space in the cells
 - split column with multiple items to separated columns
 - redefine "MEASURED IN CWT" by multiplying by 100
 - make extreme large value more accessible by using log scale on "value"
-- 
-
-# Cleaned Strawberry data
+- redefine value as production of strawberries 
 
 
+# Measurement units and value {data-background="images/bg-02.png"}
 
-# Measurement units and value
-- In order to make extremely large values more accessible, we use the log scale on "value". Our major analysis is base on the measurement units, and our main focus in on "MEASURE IN LB"
+- Our major analysis is base on the measurement units, and our main focus in on "MEASURE IN LB"
 
 ```{R fig.height=4}
-
-GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5), lower=list(combo=wrap("facethist",  
-binwidth=0.5)))
-
+GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5), lower=list(combo=wrap("facethist",binwidth=0.5)))
 ```
 
-# Map
+# Map {data-background="images/bg-03.png"}
+
+- California and Florida are two states where majority data are collected from.
 
 ```{r echo=FALSE, warning= FALSE, fig.height=5}
 map(years = "2019", 
     chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
-
-
-
 ```
 
-# yearly value of strawberries in each state
+# yearly value of strawberries in each state {data-background="images/bg-04.png"}
 
-```{r fig.height=5}
+- Showing that California Florida increasely used all kinds of chemicals on strawberries.
+
+```{r fig.height= 4}
 plot1("MEASURED IN LB")
-
 ```
 
+# Data wrangling for Strawberries and Pesticides {data-background="images/bg-01.png"}
 
-# strawberry and toxin 
--Display our wrangled dataset
+- drop empty rows/columns, remove white space
+- rename colname of Pesticide to chemical in order to match the colname in strawberries data
+- use toupper() to capitalize all chemical names 
+- use pivot_longer() to make all toxins and levels into one column
+- use inner_join() to wrangle Pesticide and Strawberry dataset
 
+# Toxin level versus Value {data-background="images/bg-02.png"}
 
-# Toxin level versus Value
+- Bee toxin related chemicals are proportioned to larger strawberries production values
 
-```{r, echo=FALSE, warning = FALSE, fig.height=5}
+```{r, echo=FALSE, warning = FALSE, fig.height=6}
 p3 =plot3("MEASURED IN LB")
 ggplotly(p3, tooltip="y")
-
 ```
 
-# Total toxin levels
-
-```{r fig.height=5}
+# Total toxin levels {data-background="images/bg-03.png"}
+- In both human and bee toxins, insecticide chemicals have more observations than fungicide.
+```{r fig.height=4}
 p4 <- plot4("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
 ggplotly(p4, tooltip="y")
 ```
 
-# Bee Toxin 
-
-```{r fig.height=5}
+# Bee Toxin {data-background="images/bg-04.png"}
+- But looking solely at bee toxins, fungicide chemicals have higher proportion.
+```{r fig.height=4}
 p5 <- plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
 ggplotly(p5, tooltip="y")
 ```
 
+# Conclusion {data-background="images/bg-01.png"}
 
+-
+-
+-
+
+# Thanks {data-background="images/bg-02.png"}
+
+-
+-
+-
+
+# Citations {data-background="images/bg-03.png"}
+
+-
+-
+-
