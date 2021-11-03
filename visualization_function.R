@@ -97,83 +97,94 @@ map <-function(years = "2019",state = "CALIFORNIA",
     ggplot2::theme(legend.position = "right")
 }
 
+#############################################################################################3
 #map()
 
+library(htmltools)
+library(htmlwidgets)
+library(rgdal)
 
 mo_map <- function(para1, para2){
   
   #input the measurement and the chemical type
   state <- cbind("CALIFORNIA","FLORIDA","NEW YORK","NORTH CAROLINA","WASHINGTON","OREGON")
   dataset_sub <- rep(NA, 6)
-  pacity <- rep(NA, 6)
+  color <- rep(NA, 6)
   
   for(i in 1:6){
     
     dataset_sub = 0
     STATE <- state[i]
     dataset_sub <- strawb1 %>% 
-      filter(measurement.s. == "MEASURED IN LB") %>%
-      filter(chemical.type %in% "FUNGICIDE") %>%
+      filter(measurement.s. == para1) %>%
+      filter(chemical.type %in% para2) %>%
       filter(state == STATE) 
     
     dataset <- strawb1 %>% 
-      filter(measurement.s. == "MEASURED IN LB") %>%
-      filter(chemical.type %in% "FUNGICIDE")
+      filter(measurement.s. == para1) %>%
+      filter(chemical.type %in% para2)
     
     #chemical.type percentage on different state
-    pacity[i] <- sum(dataset_sub$value)/sum(dataset$value)
-    
+    percentage <- sum(dataset_sub$value)/sum(dataset$value)
+    color[i] <- percentage
+  }
+  
+  color1 <- rank(color)
+  
+  for(i in 1:6){
+    color1[i] <- ifelse(color[i] == 0, 1, color1[i])
   }
   
   #color for different chemical.type
   if(para2 == "ORGANIC STATUS")
-  {a = "tomato"}
+  {a = brewer.pal(6,"Purples")}
   else if(para2 == "FUNGICIDE")
-  {a = "steelblue"}
+  {a = brewer.pal(6,"Blues")}
   else if(para2 == "HERBICIDE")
-  {a = "plum"}
+  {a = brewer.pal(6,"Greys")}
   else if(para2 == "INSECTICIDE")
-  {a = "orange"}
+  {a = brewer.pal(6,"Oranges")}
   else if(para2 == "OTHER")
-  {a = "slateblue"}
+  {a = brewer.pal(6,"RdPu")}
   else if(para2 == "FERTILIZER")
-  {a = "slategrey"}
+  {a = brewer.pal(6,"Greens")}
   
   data(state.fips)
   mapstate=st_as_sf(map('state',plot = F,fill = T))
-  pop <- paste("State:",toupper(mapstate$ID))
+  label<- paste("<p><b>",toupper(mapstate$ID), "</p></b>",
+                "measurement.s.:", para1, "<br>", 
+                "chemical.type:", para2)
+  
   
   mymap<-leaflet(mapstate)%>%
     
     addTiles()%>%
-    
-    addPolygons(data = mapstate %>% filter(ID %in% c("california")),
-                stroke = T, fillOpacity = pacity[1], weight = 0.5,
-                color = a) %>%
-    addPolygons(data = mapstate %>% filter(ID %in% c("florida")),
-                stroke = T, fillOpacity = pacity[2], weight = 0.5,
-                color = a) %>%
-    addPolygons(data = mapstate %>% filter(ID %in% c("new york")),
-                stroke = T, fillOpacity = pacity[3], weight = 0.5,
-                color = a) %>%
-    addPolygons(data = mapstate %>% filter(ID %in% c("north carolina")),
-                stroke = T, fillOpacity = pacity[4], weight = 0.5,
-                color = a) %>%
-    addPolygons(data = mapstate %>% filter(ID %in% c("washington")),
-                stroke = T, fillOpacity = pacity[5], weight = 0.5,
-                color = a) %>%
-    addPolygons(data = mapstate %>% filter(ID %in% c("oregon")),
-                stroke = T, fillOpacity = pacity[6], weight = 0.5,
-                color = a) %>%
-    
-    addPolygons(data=mapstate,label=pop,color='white',stroke = T,fillOpacity = 0,weight = 0.5)  
   
-  mymap
-  #mymap %>% addProviderTiles(providers$HikeBike.HikeBike)
-  #mymap %>% addProviderTiles(providers$Esri.DeLorme)
+  addPolygons(data = mapstate %>% filter(ID %in% c("california")),
+              stroke = T, fillOpacity = 0.8, weight = 1, 
+              color = a[color1[1]]) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("florida")),
+                stroke = T, fillOpacity = 0.8, weight = 1,
+                color = a[color1[2]]) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("new york")),
+                stroke = T, fillOpacity = 0.8, weight = 1,
+                color = a[color1[3]]) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("north carolina")),
+                stroke = T, fillOpacity = 0.8, weight = 1,
+                color = a[color1[4]]) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("washington")),
+                stroke = T, fillOpacity = 0.8, weight = 1,
+                color = a[color1[5]]) %>%
+    addPolygons(data = mapstate %>% filter(ID %in% c("oregon")),
+                stroke = T, fillOpacity = 0.8, weight = 1,
+                color = a[color1[6]]) %>%
+    
+    addPolygons(data=mapstate,label=lapply(label, HTML),color='white',
+                stroke = T,fillOpacity = 0,weight = 2)  
+
+  mymap %>% addProviderTiles(providers$OpenTopoMap) 
+
 }
 
 mo_map("MEASURED IN LB", "FERTILIZER")
-
-
 
