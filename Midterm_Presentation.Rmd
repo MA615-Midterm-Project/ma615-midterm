@@ -21,6 +21,8 @@ Our strawberry dataset is taking from the United States Department of Agricultur
 - make extreme large value more accessible by using log scale on "value"
 - redefine value as production of strawberry 
 
+- You can also explore our shiny app here (https://lemony.shinyapps.io/ma615-midterm/)
+
 ```{r echo=FALSE}
 GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5),lower=list(combo=wrap("facethist", binwidth=0.5)))
 
