@@ -33,15 +33,10 @@ map <-function(years = "2019",
                     values = "value", 
                     color = "pink",  size = 1,
                     labels = T, label_color = "grey") +
-    
-    
-    # geom_point(data = strawb1[strawb1$year==years & 
-    #                                 strawb1$state == state & 
-    #                                strawb1$chemical == chemical & 
-    #                                strawb1$`measurement.s.` == measurement,])+
-    
-    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "", label = scales::comma)+ 
-    ggplot2::theme(legend.position = "right")
+   
+    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "log(value)", label = scales::comma)+ 
+    ggplot2::theme(legend.position = "right") +
+    labs(title="U.S. State Map of Strawberry Value")
 }
 
 #map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
@@ -50,7 +45,7 @@ map <-function(years = "2019",
 
 # plot1
 
-# yearly value of strawberries in each state
+# Annual value of strawberries in each state
 
 plot1 <-function(para1){
   dataset <- strawb1 %>% 
@@ -62,7 +57,8 @@ plot1 <-function(para1){
     coord_polar()+
     facet_wrap(~factor(year)) +
     theme_bw()+
-    theme(plot.title = element_text(hjust = 0.5))
+    theme(plot.title = element_text(hjust = 0.5))+
+    labs(title="Annual State Value of Strawberries") 
 }
 
 
@@ -74,7 +70,7 @@ plot1("MEASURED IN LB")
 
 #chemical type related value in each state in LB
 
-# yearly value of strawberries in each state
+# Annual value of strawberries in each state
 plot2 <-function(para1, para2, para3){
   dataset <- strawb1 %>% 
     filter(measurement.s. == para1) %>%
@@ -104,10 +100,10 @@ ggplot(data=dataset)+
   theme(axis.text.x = element_text(angle = 45,hjust=0.5), plot.title = element_text(hjust = 0.5))
 }
 
-p3 <- plot3("MEASURED IN LB")
-ggplotly(p3)
+#p3 <- plot3("MEASURED IN LB")
+#ggplotly(p3)
 
-
+# Total toxin levels
 #plot4 
 plot4 <-function(para1, para2,para3){
   dataset <- toxin_st %>%
@@ -117,7 +113,8 @@ plot4 <-function(para1, para2,para3){
   ggplot()+
     geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
              stat="identity",alpha=0.8) +
-    labs(x="year", y="log(value)")+
+    labs(x="year", y="log(value)", title ="Toxin Changes Over Years")+
+    theme(plot.title = element_text(hjust = 0.5))+
     theme_bw()
 }
 
@@ -134,7 +131,7 @@ plot5 <-function(para1, para2,para3,para4){
   ggplot()+
     geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
              stat="identity",alpha=0.8) +
-    labs(x="year", y="log(value)")+
+    labs(x="year", y="log(value)", title ="Bee Toxins in Slight Level")+
     theme_bw()
 } 
 
@@ -223,6 +220,6 @@ mo_map <- function(para1, para2){
 }
 
 
-mo_map("MEASURED IN LB", "FERTILIZER")
+#mo_map("MEASURED IN LB", "FERTILIZER")
 
 
