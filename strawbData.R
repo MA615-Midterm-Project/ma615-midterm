@@ -10,6 +10,8 @@ Pest <- Pest[Pest$Pesticide != "",]
 
 strawb <- read.csv("Strawberries.csv",fileEncoding= "latin1")
 
+#drop empty columns
+
 drop_no_info_cols <- function(df){
   cnames = colnames(strawb)
   T = NULL
@@ -22,6 +24,7 @@ drop_no_info_cols <- function(df){
 
 strawb <- drop_no_info_cols(strawb)
 
+# separate one column into more detailed columns
 strawb %<>% separate(col=Data.Item,
                      into = c("Strawberries", "items", "discription", "units"),
                      sep = ",",
@@ -41,11 +44,12 @@ strawb %<>% separate(col = Chemicals,
                      sep = ":",
                      fill = "right")
 
+#remove white space and unnecessary signs in certain variables
 strawb %<>% mutate(details = str_extract(str_trim(details) ,"[^(].*[^)]") )
 
 strawb %<>% mutate(type = str_trim(type))
 
-
+# data cleanning and extracting need data 
 for (i in 1:nrow(strawb[is.na(strawb$details),])) {
   strawb[is.na(strawb$details),]$details <- rep("NOT SPECIFIED", nrow(strawb[is.na(strawb$details),]))
 }
@@ -76,16 +80,35 @@ strawb %<>% mutate(discription = str_trim(discription))
 
 strawb$Value[strawb$discription == "MEASURED IN CWT" ] <- strawb$Value[strawb$discription == "MEASURED IN CWT" ]*100
 strawb$discription[strawb$discription == "MEASURED IN CWT"] <- rep("MEASURED IN LB", length(strawb$discription[strawb$discription == "MEASURED IN CWT" ]))
-strawb1 <- data.frame("year" = strawb$Year, "state" = strawb$State, "measurement(s)" = strawb$discription, "chemical" = strawb$details, "chemical.type" = strawb$type, "value" = strawb$Value)
+strawb1 <- data.frame("year" = strawb$Year, "state" = strawb$State, "measurement(s)" = strawb$discription, 
+                      "chemical" = strawb$details, "chemical.type" = strawb$type, "value" = log(strawb$Value))
 
-# strawb_fungi <- strawb1 %>% filter((chemical.type=="FUNGICIDE"))
-# strawb_herb <- strawb1 %>% filter((chemical.type=="HERBICIDE"))
-# strawb_insect <- strawb1 %>% filter((chemical.type=="INSECTICIDE"))
-a <- unique(strawb1$ `measurement.s.`)
-measure_dollar <- strawb1[strawb1$measurement.s. == a[1],]
-measure_LB <- strawb1[strawb1$measurement.s. == a[2],]
-measure_LAAP <- strawb1[strawb1$measurement.s. == a[3],]
-measure_LAyear <- strawb1[strawb1$measurement.s. == a[4],]
-measure_number <- strawb1[strawb1$measurement.s. == a[5],]
-measure_AB <- strawb1[strawb1$measurement.s. == a[6],]
+#strawberry and toxin
+
+Pest <- read.csv("Pesticides.csv")
+
+#remove missing values
+Pest <- Pest[Pest$Pesticide != "",]
+
+#removve white spaces in both datasets before wrangling
+strawb1%<>% mutate(chemical= str_trim(strawb1$chemical))
+Pest %<>% mutate(Pesticide = str_trim(Pest$Pesticide))
+
+# capitalize all chemical names to match names in strawberry dataset
+Pest$chemical <- toupper(Pest$Pesticide)
+
+#rearrange Pesticide and delete repeated column
+Pest<- Pest[, c(7,2,3,4,5,6)]
+
+#expand the columns to make it more accessible before wrangling
+Pest1<- Pest%>%
+  pivot_longer(!chemical, names_to = "toxin", values_to = "level") 
+
+#join two datasets together 
+toxin_st<- strawb1 %>% inner_join(Pest1,by="chemical")
+
+#change missing value to NA and remove them
+toxin_st$level[toxin_st$level==""] <- NA
+toxin_st<- na.omit(toxin_st)
+
 
