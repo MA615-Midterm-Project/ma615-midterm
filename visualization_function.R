@@ -141,7 +141,7 @@ plot5 <-function(para1, para2,para3,para4){
 #plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
 
 
-# map
+# map 
 
 map <-function(years = "2019", 
                chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
