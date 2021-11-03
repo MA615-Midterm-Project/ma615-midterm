@@ -23,7 +23,7 @@ source(file = "visualization_function.R", echo = FALSE)
 
 
    <h1 style="margin-top:50px;text-align:center;color=black;font-family:charter;font-size:50px;">
-Midterm Project:  and Chemicals</h1>
+Midterm Project: Strawberry and Chemicals</h1>
 
 <p style="margin-top:200px;text-align:center;font-family:charter;font-size:35px;color=black">Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen</p>
 
@@ -31,13 +31,13 @@ Midterm Project:  and Chemicals</h1>
 
 </section>
 
-# Data Cleaning for  {data-background="images/bg-01.png"}
+# Data Cleaning for Strawberry {data-background="images/bg-01.png"}
 
 - remove empty/missing values and reduce white space in the cells
 - split column with multiple items to separated columns
 - redefine "MEASURED IN CWT" by multiplying by 100
 - make extreme large value more accessible by using log scale on "value"
-- redefine value as production of  
+- redefine value as production of strawberry
 
 
 # Measurement units and value {data-background="images/bg-02.png"}
@@ -56,20 +56,20 @@ map(years = "2019",
     chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 ```
 
-# Annual value of  in each state {data-background="images/bg-04.png"}
+# Annual value of Strawberry in each state {data-background="images/bg-04.png"}
 
-- Showing that California Florida increasingly used all kinds of chemicals on  in recent years.
+- Showing that California and Florida increasingly used all kinds of chemicals on strawberry in recent years.
 
 ```{r fig.height= 4.5}
 plot1("MEASURED IN LB")
 ```
 
-# Data wrangling for  and Pesticides {data-background="images/bg-01.png"}
+# Data wrangling for Strawberry and Pesticides {data-background="images/bg-01.png"}
 
 - drop empty rows/columns, remove white space
-- rename colname of Pesticide to chemical in order to match the colname in  data
+- rename colname of Pesticide to chemical in order to match the colname in strawberry data
 - use toupper() to capitalize all chemical names 
-- use pivot_longer() to make all toxins and levels into one column
+- use pivot_longer() to make all toxins and levels into longer columns
 - use inner_join() to wrangle Pesticide and Strawberry dataset
 
 
@@ -81,7 +81,7 @@ plot1("MEASURED IN LB")
 
 # Toxin level changes over years {data-background="images/bg-03.png"}
 
-- Bee toxins are related to larger  production values.
+- Bee toxins are related to larger strawberry production values.
 
 ```{r, echo=FALSE, warning = FALSE, fig.height=6}
 p3 =plot3("MEASURED IN LB")
@@ -118,9 +118,9 @@ ggplotly(p5, tooltip="y")
 
 # Conclusion {data-background="images/bg-04.png"}
 
-- California and Florida have higher production and more data are collected from those two states according to shiny display.
+- California and Florida have higher strawberry production and more data are collected from those two states according to shiny display.
 - Bee toxins are related to higher strawberry production values than human toxins.
-- Insecticide is more commonly related to toxicity than fungicide.
+- Insecticide is more commonly related to toxicity than fungicide in strawberry production.
 
 # Thanks {data-background="images/bg-01.png"}
 
@@ -131,6 +131,7 @@ ggplotly(p5, tooltip="y")
 
 # Citations {data-background="images/bg-02.png"}
 
+- Haviland's lectures
 - https://www.r-graph-gallery.com
 - https://r-lang.com
 - https://stackoverflow.com

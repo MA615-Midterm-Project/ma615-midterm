@@ -14,7 +14,7 @@ source('visualization_function.R')
 # Introduction
 Our strawberry dataset is taking from the United States Department of Agriculture (USDA) and the Pesticide dataset is from Haviland. The strawberry dataset consists the years of 2015, 2016, 2018, 2019 and states including California, Florida, New York, North Carolina, Oregon, and Washington. 
 
-# Data Cleaning for strawberry
+# Data Cleaning for Strawberry
 - remove empty/missing values and reduce white space in the cells
 - split column with multiple items to separated columns
 - redefine "MEASURED IN CWT" by multiplying by 100
@@ -90,17 +90,18 @@ plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
 
 - California and Florida have lower production but more data are collected from those two states according to shiny display.
 - Bee toxins are related to higher strawberry production values than human toxins.
-- Insecticide is more commonly related to toxicity than fungicide.
+- Insecticide is more commonly related to toxicity than fungicide on strawberry production.
 
 # Thanks
 
 - Professor Haviland 
 - TA Bruce 
-- Our lovely MA-615 Classmates
+- Our lovely MA-615 classmates
 - Our teammates
 
 # Citations
 
+- Haviland's lectures
 - https://www.r-graph-gallery.com
 - https://r-lang.com
 - https://stackoverflow.com
