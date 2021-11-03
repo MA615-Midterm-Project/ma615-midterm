@@ -9,11 +9,15 @@ library(ggplot2)
 library(tidyverse)
 library(maps)
 library(sf)
+library(sp)
 library(cowplot)
 library(usmap)
 library(plotly)
 library(leaflet)
 library(GGally)
+library(htmltools)
+library(htmlwidgets)
+library(RColorBrewer)
 
 source(file = "strawbData.R", echo = FALSE)
 
@@ -147,7 +151,7 @@ map <-function(years = "2019",
                                      strawb1$`measurement.s.` == measurement,], 
                     
                     values = "value", 
-                    color = "pink",  size = 1,
+                    color = "pink",  size = 0.5,
                     labels = T, label_color = "grey") +
     
     
@@ -156,17 +160,18 @@ map <-function(years = "2019",
     #                                strawb1$chemical == chemical & 
     #                                strawb1$`measurement.s.` == measurement,])+
     
-    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "", label = scales::comma)+ 
-    ggplot2::theme(legend.position = "right")
+    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "Pounds", label = scales::comma,)+ 
+    ggplot2::theme(legend.position = "right",
+                                                   legend.title=element_text(size=12), 
+                                                   legend.text=element_text(size=10))
 }
+map()
 
 
 #############################################################################################3
 #map()
 
-library(htmltools)
-library(htmlwidgets)
-library(RColorBrewer)
+
 
 mo_map <- function(para1, para2){
   
