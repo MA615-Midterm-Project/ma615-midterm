@@ -29,6 +29,7 @@ Our strawberry dataset is taking from the United States Department of Agricultur
 - use pivot_longer() to make all toxins and levels into longer columns
 - use inner_join() to wrangle Pesticide and Strawberry dataset
 
+\newpage
 
 # Measurement units and value {data-background="images/bg-03.png"}
 
@@ -41,12 +42,16 @@ GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5),low
 
 ```
 
+\newpage
+
 - The following map is an example showing that both California and Florida have higher total amount of annual strawberry production in pounds than other states.
 
 ```{r}
 map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 
 ```
+
+\newpage
 
 # Annual state value of strawberry
 
@@ -65,7 +70,9 @@ After reviewing the summary of our dataset, we came up with following questions:
 - Which toxin has higher strawberry production/sale value?
 - Which type of chemical is commonly related to toxicity?
 
-# strawberry and Chemical Toxins
+\newpage
+
+# Strawberry and chemical Toxins
 
 Here is our first approach of our question. After wrangled USDA strawberry dataset with Pesticide dataset, we tried to figure out how chemicals can impact the production or sales of strawberry. The plot below shows the bee toxins related chemicals are proportioned to larger strawberry production values which directly answered our second question.
 
@@ -74,23 +81,38 @@ plot3("MEASURED IN LB")
 
 ```
 
+\newpage
+
 # Comparing fungicide and insecticide related values
 After looking carefully at our data, we realized that only insecticide and fungicide are related to toxins, and there are only three states related to pestide toxins which are California, Florida and Washington. Since both California and Florida have more data avaible, we will focus on those two states only. 
 
-Therefore, the below plots shows how each chemical type are proportioned to the strawberry production/sale value on log scale. In both human and bee toxins, insecticide and fungicide seem to have even proportion in strawberry production values in California, but We need further analysis.  
-```{r}
+Therefore, the below plots shows how each chemical type are proportioned to the strawberry production/sale value on log scale. In the total toxins, insecticide and fungicide seem to have even proportion in strawberry production values in California, but We need further analysis.  
+```{r,out.width="60%", fig.cap="California"}
 plot4("MEASURED IN LB","CALIFORNIA")
-plot4("MEASURED IN LB","FLORIDA")
-
 ```
+
+
+For the Florida plot, we can clarify find that the insecticide is much higher than fungicide, though we don't have date of insecticide in 2018.
+```{r,out.width="60%", fig.cap="Florida"}
+plot4("MEASURED IN LB","FLORIDA")
+```
+
+\newpage
 
 # Bee toxins
-- But looking solely at bee toxins, insecticide chemicals have higher proportion in both California and Florida. Therefore, we can answer our third question that insecticide is more commonly related to toxicity. 
-```{r}
+When we focus on bee toxin, we can find that the chemical type is different than the total toxin which we see above in California. Insecticide is more higher than fungicide.
+```{r,out.width="60%", fig.cap="California"}
 plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
-plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
-
 ```
+
+
+But for Florida, the bee toxin shows same result as total toxin.
+```{r,out.width="60%", fig.cap="Florida"}
+plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
+```
+- So looking solely at bee toxins, insecticide chemicals have higher proportion in both California and Florida. Therefore, we can answer our second question that insecticide is more commonly related to toxicity. 
+
+\newpage
 
 # Limitations {data-background="images/bg-04.png"}
 
