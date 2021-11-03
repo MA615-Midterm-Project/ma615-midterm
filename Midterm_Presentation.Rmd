@@ -1,5 +1,5 @@
 ---
-title: "Midterm_Presentation"
+title: "Midterm Presentation"
 author: "Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen"
 date: "11/2/2021"
 output: pdf_document
@@ -39,16 +39,15 @@ Our strawberry dataset is taking from the United States Department of Agricultur
 
 ```{r echo=FALSE}
 GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5),lower=list(combo=wrap("facethist", binwidth=0.5)))
-
 ```
 
 \newpage
 
+# Map
 - The following map is an example showing that both California and Florida have higher total amount of annual strawberry production in pounds than other states.
 
 ```{r}
 map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
-
 ```
 
 \newpage
@@ -59,7 +58,6 @@ As you can see in the plot below, California and Florida are the two states wher
 
 ```{r}
 plot1("MEASURED IN LB")
-
 ```
 
 
@@ -78,7 +76,6 @@ Here is our first approach of our question. After wrangled USDA strawberry datas
 
 ```{r}
 plot3("MEASURED IN LB")
-
 ```
 
 \newpage
