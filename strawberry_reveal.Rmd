@@ -38,39 +38,39 @@ Midterm Project: Strawberry and Chemicals</h1>
 - split column with multiple items to separated columns
 - redefine "MEASURED IN CWT" by multiplying by 100
 - make extreme large value more accessible by using log scale on "value"
-- redefine value as production of strawberry
 
 
-# Measurement units and value {data-background="images/bg-02.png"}
-
-- Our major analysis is base on the measurement units, and our main focus is on "MEASURE IN LB"
-
-- Let's explore our shiny.app (https://lemony.shinyapps.io/ma615-midterm/)
-
-
-# Mouse-over map {data-background="images/bg-03.png"}
-
-- California and Florida have higher amount of annual strawberry production in pounds than other states.
-
-```{r echo=FALSE, warning= FALSE, fig.height=5}
-mo_map("MEASURED IN LB", "INSECTICIDE")
-```
-
-# Annual value of Strawberry in each state {data-background="images/bg-04.png"}
-
-- Showing that California and Florida increasingly used all kinds of chemicals on strawberry in recent years.
-
-```{r fig.height= 4.5}
-plot1("MEASURED IN LB")
-```
-
-# Data wrangling for Strawberry and Pesticides {data-background="images/bg-01.png"}
+# Data wrangling for Strawberry and Pesticides {data-background="images/bg-02.png"}
 
 - drop empty rows/columns, remove white space
 - rename colname of Pesticide to chemical in order to match the colname in strawberry data
 - use toupper() to capitalize all chemical names 
 - use pivot_longer() to make all toxins and levels into longer columns
 - use inner_join() to wrangle Pesticide and Strawberry dataset
+
+
+# Measurement units and value {data-background="images/bg-03.png"}
+
+- Our major analysis is base on the measurement units, and our main focus is on "MEASURE IN LB"
+- redefine value as production of strawberry
+- Let's explore our shiny.app (https://lemony.shinyapps.io/ma615-midterm/)
+
+
+# Mouse-over map {data-background="images/bg-04.png"}
+
+- California and Florida have higher total amount of annual strawberry production in pounds than other states.
+
+```{r echo=FALSE, warning= FALSE, fig.height=5}
+mo_map("MEASURED IN LB", "INSECTICIDE")
+```
+
+# Annual value of Strawberry in each state {data-background="images/bg-14.png"}
+
+- Showing that California and Florida increasingly used all kinds of chemicals on strawberry in recent years.
+
+```{r fig.height= 4.5}
+plot1("MEASURED IN LB")
+```
 
 
 # Questions {data-background="images/bg-02.png"}
@@ -118,7 +118,7 @@ ggplotly(p5, tooltip="y")
 
 # Conclusion {data-background="images/bg-04.png"}
 
-- California and Florida have higher strawberry production and more data are collected from those two states according to shiny display.
+- California and Florida have higher total strawberry production and more data are collected from those two states according to shiny display.
 - Bee toxins are related to higher strawberry production values than human toxins.
 - Insecticide is more commonly related to toxicity than fungicide in strawberry production.
 
