@@ -11,6 +11,9 @@ library(maps)
 library(sf)
 library(cowplot)
 library(usmap)
+library(plotly)
+library(leaflet)
+library(GGally)
 
 source(file = "strawbData.R", echo = FALSE)
 
@@ -25,16 +28,20 @@ plot1 <-function(para1){
   ggplot(data=dataset) +
     geom_bar(mapping = aes(x=factor(chemical.type), y=log(value), fill=state), 
              stat="identity", position= 'dodge', alpha=0.8) +
-    labs(x="year", y=paste("log of", para1, sep = ""))+
+    labs(x="year", y=paste("log of ", para1, sep = ""))+
     coord_polar()+
     facet_wrap(~factor(year)) +
     theme_bw()
 }
 
+
 plot1("MEASURED IN LB")
 
+p1 <- plot1("MEASURED IN LB")
+ggplotly(p1)
 
-# plot2
+
+  # plot2
 
 #chemical type related value in each state in LB
 
@@ -62,21 +69,39 @@ plot3 <-function(para1){
 ggplot(data=dataset)+
   geom_bar(mapping = aes(x=factor(toxin), y=log(value), fill=level), 
            stat="identity", alpha=0.8) +
-  labs(x="toxin", y="value")+
+  labs(x = "toxin", y="value", title = "Toxin level versus Value")+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust=0.5))
+  theme(axis.text.x = element_text(angle = 45,hjust=0.5))
 }
 
-plot3("MEASURED IN LB")
+p3 <- plot3("MEASURED IN LB")
+ggplotly(p3)
+
+
+#plot4 
+
+plot4 <-function(para1, para2){
+  dataset <- toxin_st %>%
+    filter(toxin == para2)%>% 
+    filter(measurement.s. == para1)%>%
+    filter(state == "CALIFORNIA")%>%
+    filter(level == "slight")
+  ggplot()+
+    geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
+             stat="identity",alpha=0.8) +
+    labs(x="toxin", y="value")+
+    theme_bw()
+} 
+
+plot4("MEASURED IN LB","Bee.Toxins")
 
 # map
 
-map <-function(years = "2019",state = "CALIFORNIA", 
+map <-function(years = "2019", 
                chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
   
   usmap::plot_usmap(data = strawb1[strawb1$year==years & 
-                                     strawb1$state == state & 
                                      strawb1$chemical == chemical & 
                                      strawb1$`measurement.s.` == measurement,], 
                     
@@ -94,5 +119,6 @@ map <-function(years = "2019",state = "CALIFORNIA",
     ggplot2::theme(legend.position = "right")
 }
 
-#map()
+#map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
+
 
