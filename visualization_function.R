@@ -125,6 +125,7 @@ map <-function(years = "2019",
 
 library(htmltools)
 library(htmlwidgets)
+library(RColorBrewer)
 
 mo_map <- function(para1, para2){
   
