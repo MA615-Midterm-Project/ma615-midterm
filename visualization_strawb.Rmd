@@ -19,9 +19,8 @@ library(maps)
 library(sf)
 library(cowplot)
 library(usmap)
-library(plotly)
 
-source(file = "strawbData.R", echo = TRUE)
+source(file = "strawbData.R", echo = FALSE)
 
 ```
 
@@ -41,9 +40,8 @@ plot1 <- function(measurement = "MEASURED IN LB"){
   coord_polar()+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(text=element_text(size=25))
+  theme(text=element_text(size=15))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
-  
     
   }
   
@@ -56,7 +54,7 @@ plot1 <- function(measurement = "MEASURED IN LB"){
   coord_polar()+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(text=element_text(size=25))
+  theme(text=element_text(size=15))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
     
   }
@@ -70,7 +68,7 @@ plot1 <- function(measurement = "MEASURED IN LB"){
   coord_polar()+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(text=element_text(size=25))
+  theme(text=element_text(size=15))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
     
   }
@@ -84,7 +82,7 @@ plot1 <- function(measurement = "MEASURED IN LB"){
   coord_polar()+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(text=element_text(size=25))
+  theme(text=element_text(size=15))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
     
   }
@@ -98,7 +96,7 @@ plot1 <- function(measurement = "MEASURED IN LB"){
   coord_polar()+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(text=element_text(size=25))
+  theme(text=element_text(size=15))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
     
   }
@@ -112,23 +110,21 @@ plot1 <- function(measurement = "MEASURED IN LB"){
   coord_polar()+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(text=element_text(size=25))
+  theme(text=element_text(size=15))
 #ggsave('plot1.png', width=20, height=20, dpi=450)
     
   }  
 }
 
-plot1()
 
 ```
-
 
 # plot2
 ```{R}
 #chemical type related value in each state in LB
 
 # yearly value of strawberries in each state
-plot2 <- function(measurement = "MEASURED IN LB"){
+plot2<- function(measurement = "MEASURED IN LB"){
   
   if (measurement == "MEASURED IN LB"){
     
@@ -209,7 +205,7 @@ plot2 <- function(measurement = "MEASURED IN LB"){
   }
 }
 
-plot2()
+  
 
 
 ```
