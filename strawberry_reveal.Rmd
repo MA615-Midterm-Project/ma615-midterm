@@ -48,13 +48,12 @@ Midterm Project: Strawberry and Chemicals</h1>
 - Let's explore our shiny.app (https://lemony.shinyapps.io/ma615-midterm/)
 
 
-# Map {data-background="images/bg-03.png"}
+# Mouse-over map {data-background="images/bg-03.png"}
 
 - California and Florida have higher amount of annual strawberry production in pounds than other states.
 
 ```{r echo=FALSE, warning= FALSE, fig.height=5}
-map(years = "2019", 
-    chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
+mo_map("MEASURED IN LB", "INSECTICIDE")
 ```
 
 # Annual value of Strawberry in each state {data-background="images/bg-04.png"}
@@ -138,7 +137,3 @@ ggplotly(p5, tooltip="y")
 - https://stackoverflow.com
 - https://shiny.rstudio.com/tutorial
 
-# Mouse-over map {data-background="images/bg-03.png"}
-```{r fig.height=4}
-mo_map("MEASURED IN LB", "FERTILIZER")
-```
