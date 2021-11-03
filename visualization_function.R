@@ -17,6 +17,32 @@ library(GGally)
 
 source(file = "strawbData.R", echo = FALSE)
 
+# map
+
+map <-function(years = "2019", 
+               chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
+  
+  usmap::plot_usmap(data = strawb1[strawb1$year==years & 
+                                     strawb1$chemical == chemical & 
+                                     strawb1$`measurement.s.` == measurement,], 
+                    
+                    values = "value", 
+                    color = "pink",  size = 1,
+                    labels = T, label_color = "grey") +
+    
+    
+    # geom_point(data = strawb1[strawb1$year==years & 
+    #                                 strawb1$state == state & 
+    #                                strawb1$chemical == chemical & 
+    #                                strawb1$`measurement.s.` == measurement,])+
+    
+    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "", label = scales::comma)+ 
+    ggplot2::theme(legend.position = "right")
+}
+
+#map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
+
+
 
 # plot1
 
@@ -31,17 +57,16 @@ plot1 <-function(para1){
     labs(x="year", y=paste("log of ", para1, sep = ""))+
     coord_polar()+
     facet_wrap(~factor(year)) +
-    theme_bw()
+    theme_bw()+
+    theme(plot.title = element_text(hjust = 0.5))
 }
 
 
 plot1("MEASURED IN LB")
 
-p1 <- plot1("MEASURED IN LB")
-ggplotly(p1)
 
 
-  # plot2
+# plot2
 
 #chemical type related value in each state in LB
 
@@ -59,7 +84,7 @@ plot2 <-function(para1, para2, para3){
     theme_bw()
 }
 
-plot2("MEASURED IN LB","ORGANIC STATUS", "CALIFORNIA")
+#plot2("MEASURED IN LB","ORGANIC STATUS", "CALIFORNIA")
 
 #plot3
 
@@ -72,7 +97,7 @@ ggplot(data=dataset)+
   labs(x = "toxin", y="value", title = "Toxin level versus Value")+
   facet_wrap(~factor(year)) +
   theme_bw()+
-  theme(axis.text.x = element_text(angle = 45,hjust=0.5))
+  theme(axis.text.x = element_text(angle = 45,hjust=0.5), plot.title = element_text(hjust = 0.5))
 }
 
 p3 <- plot3("MEASURED IN LB")
@@ -94,7 +119,10 @@ plot4 <-function(para1, para2){
     theme_bw()
 } 
 
-plot4("MEASURED IN LB","Bee.Toxins")
+
+#plot4("MEASURED IN LB","Bee.Toxins")
+
+#plot4("MEASURED IN LB","Bee.Toxins")
 
 # map
 
@@ -212,4 +240,5 @@ mo_map <- function(para1, para2){
 #map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 
 mo_map("MEASURED IN LB", "FERTILIZER")
+
 
