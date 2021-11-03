@@ -109,37 +109,24 @@ ggplotly(p3)
 
 
 #plot4 
-plot4 <-function(para1, para2,para3){
+
+plot4 <-function(para1, para2){
   dataset <- toxin_st %>%
     filter(toxin == para2)%>% 
     filter(measurement.s. == para1)%>%
-    filter(state == para3)
+    filter(state == "CALIFORNIA")%>%
+    filter(level == "slight")
   ggplot()+
     geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
              stat="identity",alpha=0.8) +
-    labs(x="year", y="log(value)")+
-    theme_bw()
-}
-
-#plot4("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
-
-#plot5
-
-plot5 <-function(para1, para2,para3,para4){
-  dataset <- toxin_st %>%
-    filter(toxin == para2)%>% 
-    filter(measurement.s. == para1)%>%
-    filter(state == para3)%>%
-    filter(level == para4)
-  ggplot()+
-    geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
-             stat="identity",alpha=0.8) +
-    labs(x="year", y="log(value)")+
+    labs(x="toxin", y="value")+
     theme_bw()
 } 
 
-#plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
 
+#plot4("MEASURED IN LB","Bee.Toxins")
+
+#plot4("MEASURED IN LB","Bee.Toxins")
 
 # map 
 
