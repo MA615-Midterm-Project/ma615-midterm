@@ -174,11 +174,11 @@ mo_map <- function(para1, para2){
   else if(para2 == "HERBICIDE")
   {a = brewer.pal(6,"Greys")}
   else if(para2 == "INSECTICIDE")
-  {a = brewer.pal(6,"Oranges")}
+  {a = brewer.pal(6,"Reds")}
   else if(para2 == "OTHER")
   {a = brewer.pal(6,"RdPu")}
   else if(para2 == "FERTILIZER")
-  {a = brewer.pal(6,"Greens")}
+  {a = brewer.pal(6,"RdPu")}
   
   data(state.fips)
   mapstate=st_as_sf(map('state',plot = F,fill = T))
@@ -190,34 +190,34 @@ mo_map <- function(para1, para2){
   mymap<-leaflet(mapstate)%>%
     
     addTiles()%>%
-  
-  addPolygons(data = mapstate %>% filter(ID %in% c("california")),
-              stroke = T, fillOpacity = 0.8, weight = 1, 
-              color = a[color1[1]]) %>%
+    
+    addPolygons(data = mapstate %>% filter(ID %in% c("california")),
+                stroke = T, fillOpacity = 1, weight = 1, 
+                color = a[color1[1]]) %>%
     addPolygons(data = mapstate %>% filter(ID %in% c("florida")),
-                stroke = T, fillOpacity = 0.8, weight = 1,
+                stroke = T, fillOpacity = 1, weight = 1,
                 color = a[color1[2]]) %>%
     addPolygons(data = mapstate %>% filter(ID %in% c("new york")),
-                stroke = T, fillOpacity = 0.8, weight = 1,
+                stroke = T, fillOpacity = 1, weight = 1,
                 color = a[color1[3]]) %>%
     addPolygons(data = mapstate %>% filter(ID %in% c("north carolina")),
-                stroke = T, fillOpacity = 0.8, weight = 1,
+                stroke = T, fillOpacity = 1, weight = 1,
                 color = a[color1[4]]) %>%
     addPolygons(data = mapstate %>% filter(ID %in% c("washington")),
-                stroke = T, fillOpacity = 0.8, weight = 1,
+                stroke = T, fillOpacity = 1, weight = 1,
                 color = a[color1[5]]) %>%
     addPolygons(data = mapstate %>% filter(ID %in% c("oregon")),
-                stroke = T, fillOpacity = 0.8, weight = 1,
+                stroke = T, fillOpacity = 1, weight = 1,
                 color = a[color1[6]]) %>%
     
     addPolygons(data=mapstate,label=lapply(label, HTML),color='white',
                 stroke = T,fillOpacity = 0,weight = 2)  
-
+  
   mymap %>% addProviderTiles(providers$OpenTopoMap) 
-
+  
 }
 
+#map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 
-#mo_map("MEASURED IN LB", "FERTILIZER")
-
+mo_map("MEASURED IN LB", "FERTILIZER")
 
