@@ -1,0 +1,98 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    template: temp_1.html
+    theme: white
+    highlight: pygments 
+    css: reveal.css
+    center: true
+---
+
+
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(error=TRUE)
+
+source(file = "strawbData.R", echo = FALSE)
+source(file = "visualization_function.R", echo = FALSE)
+
+```
+
+<section data-background-opacity=0.2
+         data-background-image="images/straw_bkg.png"
+         >
+
+
+   <h1 style="margin-top:35px;text-align:center;color=black;font-family:verdana;font-size:50px;">
+Midterm Project: Strawberries and Chemicals</h1>
+
+<p style="margin-top:480px;text-align:center;font-family:verdana;font-size:35px;color=black">Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen</p>
+
+#### image source --  https://www.prevention.com/food-nutrition/healthy-eating/a26537540/health-benefits-of-strawberries/
+
+# Data Cleaning for Strawberries {data-background="images/bg-01.png"}
+
+- remove empty/missing values
+- split column with multiple items to separated columns
+- redefine "MEASURED IN CWT" by multiplying by 100
+- make extreme large value more accessible by using log scale on "value"
+- 
+
+# Cleaned Strawberry data
+
+
+
+# Measurement units and value
+- In order to make extremely large values more accessible, we use the log scale on "value". Our major analysis is base on the measurement units, and our main focus in on "MEASURE IN LB"
+
+```{R fig.height=4}
+
+GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5), lower=list(combo=wrap("facethist",  
+binwidth=0.5)))
+
+```
+
+# Map
+
+```{r echo=FALSE, warning= FALSE, fig.height=5}
+map(years = "2019", 
+    chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
+
+
+
+```
+
+# yearly value of strawberries in each state
+
+```{r fig.height=5}
+plot1("MEASURED IN LB")
+
+```
+
+
+# strawberry and toxin 
+-Display our wrangled dataset
+
+
+# Toxin level versus Value
+
+```{r, echo=FALSE, warning = FALSE, fig.height=5}
+p3 =plot3("MEASURED IN LB")
+ggplotly(p3, tooltip="y")
+
+```
+
+# Total toxin levels
+
+```{r fig.height=5}
+p4 <- plot4("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
+ggplotly(p4, tooltip="y")
+```
+
+# Bee Toxin 
+
+```{r fig.height=5}
+p5 <- plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
+ggplotly(p5, tooltip="y")
+```
+
+
