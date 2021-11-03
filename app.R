@@ -23,7 +23,11 @@ library(DT)
 #Make sure the origin data file, berries.csv is in your working directory.
 #source("ag_data_strawberry.Rmd")
 strawb1 <-read.csv2("strawb1.csv",header=TRUE,sep=",")
+strawb1$value <- log(as.numeric(strawb1$value))
+strawb1$year <- (as.factor(strawb1$year))
+toxin <- read.csv2("Toxin.csv",header=TRUE,sep=",")
 
+source("Function.R")
 
 button_color_css <- "
 #DivCompClear, #FinderClear, #EnterTimes{
@@ -38,41 +42,38 @@ font-size: 15px;
 
 # Define UI
 ui <- fluidPage(
-  titlePanel("Berries Project"),
+  titlePanel("A Story about Strawberry"),
   hr(),
-  tags$h5("Authors: Yuanming LENG, Nancy SHEN, Mi ZHANG, Peng LIU "),
+  tags$h5("Authors: Yuanming LENG, Mi ZHANG, Nancy SHEN, Peng LIU"),
   hr(),
-  navbarPage("Strawberries in America",theme=shinytheme("lumen"),
+  navbarPage("Quick Stats for Strawberries",theme=shinytheme("lumen"),
              tabPanel("Dataset Overview",fluid=TRUE,icon=icon("table"),
                       sidebarLayout(
                         sidebarPanel(
-                          titlePanel("CONDITION"),
+                          titlePanel("Characteristics"),
                           
                           #select type
-                          fluidRow(column(6,
+                          fluidRow(column(7,
                                           selectInput(inputId="TypeFinder",
                                                       label = "Select Type",
                                                       choices=unique(strawb1$measurement.s.),
                                                       selected = "MEASURED IN LB"
-                                                      )),
+                                          )),
                                    
                                    #select State
-                                   column(6,
+                                   column(7,
                                           checkboxGroupInput(inputId="StateFinder",
                                                              label="Select State(s):",
                                                              choices=unique(strawb1$state),
                                                              selected="CALIFORNIA")
                                    )),
                           hr(),
-                          fluidRow(column(6,
-                                          sliderInput(inputId = "YearFinder",
-                                                      label = "Select Time Range:",
-                                                      min=2015,
-                                                      max=2019,
-                                                      value=c(2015,2016),
-                                                      width="220px")),
-                                   hr(),
-                                   column(6,
+                          fluidRow(column(7,
+                                          checkboxGroupInput(inputId = "YearFinder",
+                                                             label = "Select Time:",
+                                                             choices=unique(strawb1$year),
+                                                             selected = "2015",
+                                                             width="220px"),
                                           checkboxGroupInput(inputId="ChemFinder",
                                                              label="Select Chemical:",
                                                              choices=unique(strawb1$`chemical.type`),
@@ -85,97 +86,47 @@ ui <- fluidPage(
                                           withSpinner(dataTableOutput(outputId = "Table"))
                           ))
                         )      
-                      )), 
-             
-             
-             
-             ##Chemical Comparison
-             tabPanel("Chemical Comparison",fluid=TRUE,icon=icon("bong"),tags$style(button_color_css),
-                      tags$h2(p(icon("chart-pie"),"Comparison of Chemical on Strawberries")),
-                      hr(),
-                      fluidRow(
-                        column(6,tags$h3("Condition A")),
-                        column(6,tags$h3("Condition B"))
-                      ),
-                      fluidRow(
-                        column(6,
-                               wellPanel(
-                                 fluidRow(column(6,
-                                                 selectInput(inputId="TypeFinder1",
-                                                             label = "Select Type",
-                                                             choices=unique(strawb1$measurement.s.),
-                                                             selected = "MEASURED IN LB",
-                                                             width="220px"
-                                                 ),
-                                                 checkboxGroupInput(inputId="StateFinder1",
-                                                                    label="Select State(s):",
-                                                                    choices=unique(strawb1$state),
-                                                                    selected="CALIFORNIA")),
-                                          column(6,
-                                                 sliderInput(inputId = "YearFinder1",
-                                                             label = "Select Time Range:",
-                                                             min=2015,
-                                                             max=2019,
-                                                             value=c(2015,2016),
-                                                             width="220px"),
-                                                 checkboxGroupInput(inputId="ChemFinder1",
-                                                                    label="Select Chemical:",
-                                                                    choices=unique(strawb1$chemical.type),
-                                                                    selected="ORGANIC STATUS"))
+                      )),
+             ##Production Analysis
+             tabPanel("Dataset Summary",fluid=TRUE,icon=icon("table"),
+                      sidebarLayout(
+                        sidebarPanel(
+                          titlePanel("Characteristics"),
+                          
+                          #select type
+                          fluidRow(column(7,
+                                          selectInput(inputId="TypeFinder1",
+                                                      label = "Select Type",
+                                                      choices=unique(strawb1$measurement.s.),
+                                                      selected = "MEASURED IN LB",
+                                                      width="220px"
+                                                      
+                                          )),
+                                   hr()),
+                          fluidRow(column(7,
+                                          selectInput(inputId = "VariFinder",
+                                                      label = "Select Variable(s):",
+                                                      choices= c("year","state","chemical","chemical.type"),
+                                                      selected="state",
+                                                      width="220px"))
+                          )
+                        ),
+                        mainPanel(
+                          fluidRow(column(12,
+                                          withSpinner(dataTableOutput(outputId = "Table3"))
+                          )),
+                          fluidRow(column(12,tags$h4("Comparison Plot"),
+                                          plotOutput("Plot")
                                           
-                                 )
-                               )),
-                        column(6,
-                               wellPanel(
-                                 fluidRow(
-                                   column(6,
-                                          selectInput(inputId="TypeFinder2",
-                                                     label = "Select Type",
-                                                     choices=unique(strawb1$measurement.s.),
-                                                     selected = "MEASURED IN LB",
-                                                     width="220px"
-                                          ),
-                                          checkboxGroupInput(inputId="StateFinder2",
-                                                             label="Select State(s):",
-                                                             choices=unique(strawb1$state),
-                                                             selected="CALIFORNIA")),
-                                   column(6,
-                                          sliderInput(inputId = "YearFinder2",
-                                                      label = "Select Time Range:",
-                                                      min=2015,
-                                                      max=2019,
-                                                      value=c(2015,2016),
-                                                      width="220px"),
-                                          checkboxGroupInput(inputId="ChemFinder1",
-                                                             label="Select Chemical:",
-                                                             choices=unique(strawb1$chemical.type),
-                                                             selected="ORGANIC STATUS"))
-                                   
-                                 )
-                               )
-                        )
-                      ),
-                      fluidRow(
-                        column(6,tags$h4("Plot1 for Condition A"),
-                               plotOutput("a_Hist")),
-                        column(6,tags$h4("Plot2 for Condition B"),
-                               plotOutput("b_Hist"))
-                      ),
-                      fluidRow(
-                        column(6,tags$h4("Plot1 for Condition A"),
-                               plotOutput("a_Pie")),
-                        column(6,tags$h4("Plot2 for Condition B"),
-                               plotOutput("b_Pie"))
-                      )
-             )
-              
+                                          
+                          ))
+                        )      
+                      ))
              
              
-             
-             
-             
-             
-  ))
+  )
+)
+
 
 # Define server logic required to draw a histogram
 server <- function(session,input, output) {
@@ -191,87 +142,42 @@ server <- function(session,input, output) {
     req(input$ChemFinder)
     filter(strawb1,measurement.s. %in% input$TypeFinder)%>%
       filter(state %in% input$StateFinder)%>%
-      filter(year >= input$YearFinder[1], year <= input$YearFinder[2])%>%
+      filter(year %in% input$YearFinder)%>%
       filter(chemical.type %in% input$ChemFinder)
   })
+  
   BerryFinder1<-reactive({
     req(input$TypeFinder1)
-    req(input$StateFinder1)
-    req(input$YearFinder1)
-    req(input$ChemFinder1)
-    filter(strawb1,measurement.s. %in% input$TypeFinder)%>%
-      filter(state %in% input$StateFinder)%>%
-      filter(year >= input$YearFinder[1], year <= input$YearFinder[2])%>%
-      filter(chemical.type %in% input$ChemFinder)
+    req(input$VariFinder)
+    filter(strawb1,measurement.s. %in% input$TypeFinder1)%>%
+      select(c(input$VariFinder, (value)))
   })
-  BerryFinder2<-reactive({
-    req(input$TypeFinder2)
-    req(input$StateFinder2)
-    req(input$YearFinder2)
-    req(input$ChemFinder2)
-    filter(strawb1,measurement.s. %in% input$TypeFinder)%>%
-      filter(state %in% input$StateFinder)%>%
-      filter(year >= input$YearFinder[1], year <= input$YearFinder[2])%>%
-      filter(chemical.type %in% input$ChemFinder)
-  })
+  
   
   output$Table<-renderDataTable({
     datatable(BerryFinder())
   })
   
-  # output$a_Hist<-renderPlot({
-  #   ggplot(BerryFinder1(),aes(x= value,color= chemical.type, fill=chemical.type))+geom_density()
-  # }
-  # )
-  # output$b_Hist<-renderPlot({
-  #   ggplot(BerryFinder2(),aes(x=value,color=chemical.type,fill=chemical.type))+geom_density()
-  # }
-  # )
-  # 
-  # output$a_Pie<-renderPlot({
-  #   n<-length(BerryFinder1()[1])*100
-  #   blank_theme <- theme_minimal()+
-  #     theme(
-  #       axis.title.x = element_blank(),
-  #       axis.title.y = element_blank(),
-  #       axis.text.x = element_blank(),
-  #       axis.text.y = element_blank(),
-  #       panel.border = element_blank(),
-  #       panel.grid=element_blank(),
-  #       axis.ticks = element_blank(),
-  #       plot.title=element_text(size=14, face="bold")
-  #     )
-  #   ggplot(BerryFinder1(),aes(x="killer",color=Chem,fill=killer))+geom_bar(stat="count",position="stack",width=1)+
-  #     coord_polar(theta="y",start=0)+labs(x='',y='',title='')+geom_text(stat="count",aes(label = scales::percent(..count../sum(..count..))), size=5, position=position_stack(vjust = 0.5),col="black")
-  # })
-  # output$b_Pie<-renderPlot({
-  #   n<-length(BerryFinder2()[1])*100
-  #   blank_theme <- theme_minimal()+
-  #     theme(
-  #       axis.title.x = element_blank(),
-  #       axis.title.y = element_blank(),
-  #       axis.text.x = element_blank(),
-  #       axis.text.y = element_blank(),
-  #       panel.border = element_blank(),
-  #       panel.grid=element_blank(),
-  #       axis.ticks = element_blank(),
-  #       plot.title=element_text(size=14, face="bold")
-  #     )
-  #   ggplot(BerryFinder2(),aes(x="killer",color=Chem,fill=killer))+geom_bar(stat="count",position="stack",width=1)+
-  #     coord_polar(theta="y",start=0)+labs(x='',y='',title='')+geom_text(stat="count",aes(label = scales::percent(..count../sum(..count..))), size=5, position=position_stack(vjust = 0.5),col="black")
-  # })
-  # 
+  output$Plot <- renderPlot({
+    n<-length(BerryFinder1()[1])*100
+    blank_theme <- theme_minimal()+
+      theme(
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        panel.border = element_blank(),
+        panel.grid=element_blank(),
+        axis.ticks = element_blank(),
+        plot.title=element_text(size=14, face="bold")
+      )
+    GGally::ggpairs(BerryFinder1(), columns=c(input$VariFinder, "value"), aes(color=BerryFinder1()[,1], alpha = 0.8))
+  })
   
-  # finder<-reactive({
-  #     sberry%>%subset(sberry$Measure == input$BoxMeasure)
-  # })
-  # output$Boxplot<-renderPlot({
-  #         ggplot(data=finder(),mapping=aes(x=State,y=Value))+geom_boxplot(outlier.colour=NA)
-  # })
-  
-  
+  output$Table3 <- renderDataTable({
+    Group(BerryFinder1()[,c(input$VariFinder, "value")])
+  })
 }
 
 # Run the application 
-shinyApp(ui = ui, server = server)
-
+shinyApp(ui = ui, server = server, enableBookmarking = "url")
