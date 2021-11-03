@@ -109,24 +109,62 @@ ggplotly(p3)
 
 
 #plot4 
-
-plot4 <-function(para1, para2){
+plot4 <-function(para1, para2,para3){
   dataset <- toxin_st %>%
     filter(toxin == para2)%>% 
     filter(measurement.s. == para1)%>%
-    filter(state == "CALIFORNIA")%>%
-    filter(level == "slight")
+    filter(state == para3)
   ggplot()+
     geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
              stat="identity",alpha=0.8) +
-    labs(x="toxin", y="value")+
+    labs(x="year", y="log(value)")+
+    theme_bw()
+}
+
+#plot4("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
+
+#plot5
+
+plot5 <-function(para1, para2,para3,para4){
+  dataset <- toxin_st %>%
+    filter(toxin == para2)%>% 
+    filter(measurement.s. == para1)%>%
+    filter(state == para3)%>%
+    filter(level == para4)
+  ggplot()+
+    geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
+             stat="identity",alpha=0.8) +
+    labs(x="year", y="log(value)")+
     theme_bw()
 } 
 
+#plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
 
-#plot4("MEASURED IN LB","Bee.Toxins")
 
-#plot4("MEASURED IN LB","Bee.Toxins")
+# map 
+
+map <-function(years = "2019", 
+               chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
+  
+  usmap::plot_usmap(data = strawb1[strawb1$year==years & 
+                                     strawb1$chemical == chemical & 
+                                     strawb1$`measurement.s.` == measurement,], 
+                    
+                    values = "value", 
+                    color = "pink",  size = 0.5,
+                    labels = T, label_color = "grey") +
+    
+    
+    # geom_point(data = strawb1[strawb1$year==years & 
+    #                                 strawb1$state == state & 
+    #                                strawb1$chemical == chemical & 
+    #                                strawb1$`measurement.s.` == measurement,])+
+    
+    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "Pounds", label = scales::comma,)+ 
+    ggplot2::theme(legend.position = "right",
+                   legend.title=element_text(size=12), 
+                   legend.text=element_text(size=10))
+}
 
 # map 
 
