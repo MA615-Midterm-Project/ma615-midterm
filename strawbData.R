@@ -87,14 +87,27 @@ strawb1 <- data.frame("year" = strawb$Year, "state" = strawb$State, "measurement
 
 Pest <- read.csv("Pesticides.csv")
 
+#remove missing values
 Pest <- Pest[Pest$Pesticide != "",]
+
+#removve white spaces in both datasets before wrangling
 strawb1%<>% mutate(chemical= str_trim(strawb1$chemical))
 Pest %<>% mutate(Pesticide = str_trim(Pest$Pesticide))
+
+# capitalize all chemical names to match names in strawberry dataset
 Pest$chemical <- toupper(Pest$Pesticide)
+
+#rearrange Pesticide and delete repeated column
 Pest<- Pest[, c(7,2,3,4,5,6)]
+
+#expand the columns to make it more accessible before wrangling
 Pest1<- Pest%>%
   pivot_longer(!chemical, names_to = "toxin", values_to = "level") 
+
+#join two datasets together 
 toxin_st<- strawb1 %>% inner_join(Pest1,by="chemical")
+
+#change missing value to NA and remove them
 toxin_st$level[toxin_st$level==""] <- NA
 toxin_st<- na.omit(toxin_st)
 

@@ -116,20 +116,29 @@ p5 <- plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
 ggplotly(p5, tooltip="y")
 ```
 
-# Conclusion {data-background="images/bg-04.png"}
+# Limitations {data-background="images/bg-04.png"}
+
+- Missing values
+- Data size shrank after wrangling (not able to match all chemicals)
+- We don't know how chemical usages are related to strawberry production
+- We did not characterize toxin levels into numeric levels because they are in natural language and people have different perspectives defining them.
+
+
+# Conclusion {data-background="images/bg-01.png"}
 
 - California and Florida have higher total strawberry production and more data are collected from those two states according to shiny display.
-- Bee toxins are related to higher strawberry production values than human toxins.
+- Bee toxins are related to higher strawberry production values than other types of toxins.
 - Insecticide is more commonly related to toxicity than fungicide in strawberry production.
 
-# Thanks {data-background="images/bg-01.png"}
+
+# Thanks {data-background="images/bg-02.png"}
 
 - Professor Haviland 
 - TA Bruce 
 - Our lovely MA-615 Classmates
 - Our teammates
 
-# Citations {data-background="images/bg-02.png"}
+# Citations {data-background="images/bg-04.png"}
 
 - Haviland's lectures
 - https://www.r-graph-gallery.com

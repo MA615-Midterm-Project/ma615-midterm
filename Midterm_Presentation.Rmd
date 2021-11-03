@@ -9,6 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 source('strawbData.R')
 source('visualization_function.R')
+source(file = "maps.R", echo = FALSE)
 ```
 
 # Introduction
@@ -19,8 +20,20 @@ Our strawberry dataset is taking from the United States Department of Agricultur
 - split column with multiple items to separated columns
 - redefine "MEASURED IN CWT" by multiplying by 100
 - make extreme large value more accessible by using log scale on "value"
-- redefine value as production of strawberry 
 
+# Data wrangling for Strawberry and Pesticides
+
+- drop empty rows/columns, remove white space
+- rename colname of Pesticide to chemical in order to match the colname in strawberry data
+- use toupper() to capitalize all chemical names 
+- use pivot_longer() to make all toxins and levels into longer columns
+- use inner_join() to wrangle Pesticide and Strawberry dataset
+
+
+# Measurement units and value {data-background="images/bg-03.png"}
+
+- Our major analysis is base on the measurement units, and our main focus is on "MEASURE IN LB"
+- redefine value as production of strawberry
 - You can also explore our shiny app here (https://lemony.shinyapps.io/ma615-midterm/)
 
 ```{r echo=FALSE}
@@ -28,11 +41,11 @@ GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5),low
 
 ```
 
-- The following map is an example showing that both California and Florida have higher amount of annual strawberry production in pounds than other states.
+- The following map is an example showing that both California and Florida have higher total amount of annual strawberry production in pounds than other states.
 
 ```{r}
-map(years = "2019", 
-    chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
+map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
+
 ```
 
 # Annual state value of strawberry
@@ -44,13 +57,6 @@ plot1("MEASURED IN LB")
 
 ```
 
-# Data wrangling for strawberry and Pesticides
-
-- drop empty rows/columns, remove white space
-- rename colname of Pesticide to chemical in order to match the colname in strawberry data
-- use toupper() to capitalize all chemical names 
-- use pivot_longer() to make all toxins and levels into one column
-- use inner_join() to wrangle Pesticide and Strawberry dataset
 
 # Questions 
 
@@ -86,10 +92,18 @@ plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
 
 ```
 
+# Limitations {data-background="images/bg-04.png"}
+
+- Missing values are the most common thing when we deal with data cleaning, processing, and wrangling;
+- Data size shrank after wrangling (not able to match all chemicals);
+- We don't know how chemical usages are related to strawberry production, are they harmful or beneficial to strawberry production.
+- We did not characterize toxin levels into numeric levels because they are in natural language and people have different perspectives defining them.
+
+
 # Conclusion {data-background="images/bg-04.png"}
 
 - California and Florida have lower production but more data are collected from those two states according to shiny display.
-- Bee toxins are related to higher strawberry production values than human toxins.
+- Bee toxins are related to higher strawberry production values than other types of toxins.
 - Insecticide is more commonly related to toxicity than fungicide on strawberry production.
 
 # Thanks
