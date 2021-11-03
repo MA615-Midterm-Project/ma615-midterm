@@ -140,64 +140,6 @@ plot5 <-function(para1, para2,para3,para4){
 
 #plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
 
-
-# map 
-
-map <-function(years = "2019", 
-               chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
-  
-  usmap::plot_usmap(data = strawb1[strawb1$year==years & 
-                                     strawb1$chemical == chemical & 
-                                     strawb1$`measurement.s.` == measurement,], 
-                    
-                    values = "value", 
-                    color = "pink",  size = 0.5,
-                    labels = T, label_color = "grey") +
-    
-    
-    # geom_point(data = strawb1[strawb1$year==years & 
-    #                                 strawb1$state == state & 
-    #                                strawb1$chemical == chemical & 
-    #                                strawb1$`measurement.s.` == measurement,])+
-    
-    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "Pounds", label = scales::comma,)+ 
-    ggplot2::theme(legend.position = "right",
-                   legend.title=element_text(size=12), 
-                   legend.text=element_text(size=10))
-}
-
-# map 
-
-map <-function(years = "2019", 
-               chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB"){
-  
-  usmap::plot_usmap(data = strawb1[strawb1$year==years & 
-                                     strawb1$chemical == chemical & 
-                                     strawb1$`measurement.s.` == measurement,], 
-                    
-                    values = "value", 
-                    color = "pink",  size = 0.5,
-                    labels = T, label_color = "grey") +
-    
-    
-    # geom_point(data = strawb1[strawb1$year==years & 
-    #                                 strawb1$state == state & 
-    #                                strawb1$chemical == chemical & 
-    #                                strawb1$`measurement.s.` == measurement,])+
-    
-    ggplot2::scale_fill_continuous(low = "white", high = "red", name = "Pounds", label = scales::comma,)+ 
-    ggplot2::theme(legend.position = "right",
-                                                   legend.title=element_text(size=12), 
-                                                   legend.text=element_text(size=10))
-}
-
-
-
-#############################################################################################3
-#map()
-
-
-
 mo_map <- function(para1, para2){
   
   #input the measurement and the chemical type
@@ -280,7 +222,6 @@ mo_map <- function(para1, para2){
 
 }
 
-#map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 
 mo_map("MEASURED IN LB", "FERTILIZER")
 
