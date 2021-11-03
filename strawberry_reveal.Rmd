@@ -44,9 +44,8 @@ Midterm Project:  and Chemicals</h1>
 
 - Our major analysis is base on the measurement units, and our main focus is on "MEASURE IN LB"
 
-```{R fig.height=4}
-GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5), lower=list(combo=wrap("facethist",binwidth=0.5)))
-```
+- Let's explore our shiny.app (https://lemony.shinyapps.io/ma615-midterm/)
+
 
 # Map {data-background="images/bg-03.png"}
 
