@@ -18,29 +18,31 @@ source(file = "visualization_function.R", echo = FALSE)
 ```
 
 <section data-background-opacity=0.2
-         data-background-image="images/IMG_1151.png"
+         data-background-image="images/coverpic.png"
          >
 
 
    <h1 style="margin-top:50px;text-align:center;color=black;font-family:charter;font-size:50px;">
-Midterm Project: Strawberries and Chemicals</h1>
+Midterm Project:  and Chemicals</h1>
 
-<p style="margin-top:280px;text-align:center;font-family:charter;font-size:35px;color=black">Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen</p>
+<p style="margin-top:200px;text-align:center;font-family:charter;font-size:35px;color=black">Mi Zhang, Peng Liu, Yuanming Leng, Qiannan Shen</p>
 
+<!-- image source --  freepiks.com -->
 
+</section>
 
-# Data Cleaning for Strawberries {data-background="images/bg-01.png"}
+# Data Cleaning for  {data-background="images/bg-01.png"}
 
 - remove empty/missing values and reduce white space in the cells
 - split column with multiple items to separated columns
 - redefine "MEASURED IN CWT" by multiplying by 100
 - make extreme large value more accessible by using log scale on "value"
-- redefine value as production of strawberries 
+- redefine value as production of  
 
 
 # Measurement units and value {data-background="images/bg-02.png"}
 
-- Our major analysis is base on the measurement units, and our main focus in on "MEASURE IN LB"
+- Our major analysis is base on the measurement units, and our main focus is on "MEASURE IN LB"
 
 ```{R fig.height=4}
 GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5), lower=list(combo=wrap("facethist",binwidth=0.5)))
@@ -48,66 +50,89 @@ GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5), lo
 
 # Map {data-background="images/bg-03.png"}
 
-- California and Florida are two states where majority data are collected from.
+- California and Florida have higher amount of annual strawberry production in pounds than other states.
 
 ```{r echo=FALSE, warning= FALSE, fig.height=5}
 map(years = "2019", 
     chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 ```
 
-# yearly value of strawberries in each state {data-background="images/bg-04.png"}
+# Annual value of  in each state {data-background="images/bg-04.png"}
 
-- Showing that California Florida increasely used all kinds of chemicals on strawberries.
+- Showing that California Florida increasingly used all kinds of chemicals on  in recent years.
 
-```{r fig.height= 4}
+```{r fig.height= 4.5}
 plot1("MEASURED IN LB")
 ```
 
-# Data wrangling for Strawberries and Pesticides {data-background="images/bg-01.png"}
+# Data wrangling for  and Pesticides {data-background="images/bg-01.png"}
 
 - drop empty rows/columns, remove white space
-- rename colname of Pesticide to chemical in order to match the colname in strawberries data
+- rename colname of Pesticide to chemical in order to match the colname in  data
 - use toupper() to capitalize all chemical names 
 - use pivot_longer() to make all toxins and levels into one column
 - use inner_join() to wrangle Pesticide and Strawberry dataset
 
-# Toxin level versus Value {data-background="images/bg-02.png"}
 
-- Bee toxin related chemicals are proportioned to larger strawberries production values
+# Questions {data-background="images/bg-02.png"}
+
+- Which toxin has higher strawberry production value?
+- Which type of chemical is commonly related to toxicity?
+
+
+# Toxin level changes over years {data-background="images/bg-03.png"}
+
+- Bee toxins are related to larger  production values.
 
 ```{r, echo=FALSE, warning = FALSE, fig.height=6}
 p3 =plot3("MEASURED IN LB")
 ggplotly(p3, tooltip="y")
 ```
 
-# Total toxin levels {data-background="images/bg-03.png"}
-- In both human and bee toxins, insecticide chemicals have more observations than fungicide.
+# Comparing fungicide and insecticide related values {data-background="images/bg-04.png"}
+- In both human and bee toxins, insecticide and fungicide seem to have even proportion in strawberry production values in California
 ```{r fig.height=4}
-p4 <- plot4("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
+p4 <- plot4("MEASURED IN LB", "CALIFORNIA")
 ggplotly(p4, tooltip="y")
 ```
 
-# Bee Toxin {data-background="images/bg-04.png"}
-- But looking solely at bee toxins, fungicide chemicals have higher proportion.
+# Further analysis for Florida {data-background="images/bg-01.png"}
+- Florida shows that insecticide has higher proportion.
 ```{r fig.height=4}
-p5 <- plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA","slight")
+p4 <- plot4("MEASURED IN LB", "FLORIDA")
+ggplotly(p4, tooltip="y")
+```
+
+# Bee Toxin {data-background="images/bg-02.png"}
+- But looking solely at bee toxins, insecticide chemicals have higher proportion in strawberry production value in California.
+```{r fig.height=4}
+p5 <- plot5("MEASURED IN LB","Bee.Toxins","CALIFORNIA")
 ggplotly(p5, tooltip="y")
 ```
 
-# Conclusion {data-background="images/bg-01.png"}
+# Further Analysis for Florida {data-background="images/bg-03.png"}
+- Confirmed that insecticide is more commonly related to toxicity
+```{r fig.height=4}
+p5 <- plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
+ggplotly(p5, tooltip="y")
+```
 
--
--
--
+# Conclusion {data-background="images/bg-04.png"}
 
-# Thanks {data-background="images/bg-02.png"}
+- California and Florida have higher production and more data are collected from those two states according to shiny display.
+- Bee toxins are related to higher strawberry production values than human toxins.
+- Insecticide is more commonly related to toxicity than fungicide.
 
--
--
--
+# Thanks {data-background="images/bg-01.png"}
 
-# Citations {data-background="images/bg-03.png"}
+- Professor Haviland 
+- TA Bruce 
+- Our lovely MA-615 Classmates
+- Our teammates
 
--
--
--
+# Citations {data-background="images/bg-02.png"}
+
+- https://www.r-graph-gallery.com
+- https://r-lang.com
+- https://stackoverflow.com
+- https://shiny.rstudio.com/tutorial

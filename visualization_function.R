@@ -117,7 +117,7 @@ plot4 <-function(para1, para2){
     theme_bw()
 }
 
-plot4("MEASURED IN LB","CALIFORNIA")
+#plot4("MEASURED IN LB","CALIFORNIA")
 
 #plot5
 
@@ -129,7 +129,7 @@ plot5 <-function(para1, para2,para3,para4){
   ggplot()+
     geom_bar(data=dataset,mapping = aes(x=factor(year), y=log(value),fill = chemical.type), 
              stat="identity",alpha=0.8) +
-    labs(x="year", y="log(value)", title ="Bee Toxins in Slight Level")+
+    labs(x="year", y="log(value)", title ="Bee Toxins in All Levels")+
     theme_bw()
 } 
 
