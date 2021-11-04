@@ -42,7 +42,7 @@ font-size: 15px;
 
 # Define UI
 ui <- fluidPage(
-  titlePanel("A Story about Strawberry"),
+  titlePanel("A Story about Strawberry"), # set for page design
   hr(),
   tags$h5("Authors: Yuanming LENG, Mi ZHANG, Nancy SHEN, Peng LIU"),
   hr(),
@@ -83,6 +83,7 @@ ui <- fluidPage(
                                    
                           )
                         ),
+                        # set the size of output table 
                         mainPanel(
                           fluidRow(column(12,
                                           withSpinner(dataTableOutput(outputId = "Table"))
@@ -114,6 +115,7 @@ ui <- fluidPage(
                                                       width="220px"))
                           )
                         ),
+                        #set panel size of output table
                         mainPanel(
                           fluidRow(column(12,
                                           withSpinner(dataTableOutput(outputId = "Table3"))
@@ -154,13 +156,13 @@ server <- function(session,input, output) {
     req(input$VariFinder)
     filter(strawb1,measurement.s. %in% input$TypeFinder1)%>%
       select(c(input$VariFinder, (value)))
-  })
+  })# extract data from parameters
   
-  
+  # function of output table
   output$Table<-renderDataTable({
     datatable(BerryFinder())
   })
-  
+  # code for output plot
   output$Plot <- renderPlot({
     n<-length(BerryFinder1()[1])*100
     blank_theme <- theme_minimal()+
