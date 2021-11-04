@@ -52,7 +52,7 @@ ui <- fluidPage(
                         sidebarPanel(
                           titlePanel("Characteristics"),
                           
-                          #select type
+                          #select measurement
                           fluidRow(column(7,
                                           selectInput(inputId="TypeFinder",
                                                       label = "Select Type",
@@ -68,12 +68,14 @@ ui <- fluidPage(
                                                              selected="CALIFORNIA")
                                    )),
                           hr(),
+                          #select year
                           fluidRow(column(7,
                                           checkboxGroupInput(inputId = "YearFinder",
                                                              label = "Select Time:",
                                                              choices=unique(strawb1$year),
                                                              selected = "2015",
                                                              width="220px"),
+                          # select chemical.type
                                           checkboxGroupInput(inputId="ChemFinder",
                                                              label="Select Chemical:",
                                                              choices=unique(strawb1$`chemical.type`),
@@ -87,13 +89,13 @@ ui <- fluidPage(
                           ))
                         )      
                       )),
-             ##Production Analysis
+             ##Summary data Analysis
              tabPanel("Dataset Summary",fluid=TRUE,icon=icon("table"),
                       sidebarLayout(
                         sidebarPanel(
                           titlePanel("Characteristics"),
                           
-                          #select type
+                          #select measurment
                           fluidRow(column(7,
                                           selectInput(inputId="TypeFinder1",
                                                       label = "Select Type",
@@ -103,6 +105,7 @@ ui <- fluidPage(
                                                       
                                           )),
                                    hr()),
+                          #select variable
                           fluidRow(column(7,
                                           selectInput(inputId = "VariFinder",
                                                       label = "Select Variable(s):",
@@ -144,7 +147,7 @@ server <- function(session,input, output) {
       filter(state %in% input$StateFinder)%>%
       filter(year %in% input$YearFinder)%>%
       filter(chemical.type %in% input$ChemFinder)
-  })
+  })# extract data from parameters
   
   BerryFinder1<-reactive({
     req(input$TypeFinder1)
@@ -172,10 +175,10 @@ server <- function(session,input, output) {
         plot.title=element_text(size=14, face="bold")
       )
     GGally::ggpairs(BerryFinder1(), columns=c(input$VariFinder, "value"), aes(color=BerryFinder1()[,1], alpha = 0.8))
-  })
+  }) # data EDA
   
   output$Table3 <- renderDataTable({
-    Group(BerryFinder1()[,c(input$VariFinder, "value")])
+    Group(BerryFinder1()[,c(input$VariFinder, "value")]) #within group comparision
   })
 }
 
