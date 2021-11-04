@@ -1,4 +1,4 @@
-
+# within group analiysis
 Group <- function(database, output = TRUE){
   names(database)[1] <- "group"
   for (k in 1:ncol(database)) {
@@ -21,7 +21,7 @@ Group <- function(database, output = TRUE){
         var_level[l] <- sum(!is.na(unique(sub_data[, i+1])))
         sample_size[l] <- sum(!is.na(sub_data[, i+1]))
         if(var_level[l] >= 2 & sample_size[l] >= 3 & sample_size[l] <= 5000){
-          normal_P[l] <- shapiro.test(sub_data[, i+1])$p.value
+          normal_P[l] <- shapiro.test(sub_data[, i+1])$p.value #normal teat
         }else{
           normal_P[l] <- 0
         }
