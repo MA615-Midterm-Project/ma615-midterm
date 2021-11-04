@@ -15,19 +15,11 @@ source(file = "maps.R", echo = FALSE)
 # Introduction
 Our strawberry dataset is taking from the United States Department of Agriculture (USDA) and the Pesticide dataset is from Haviland. The strawberry dataset consists the years of 2015, 2016, 2018, 2019 and states including California, Florida, New York, North Carolina, Oregon, and Washington. 
 
-# Data Cleaning for Strawberry
-- remove empty/missing values and reduce white space in the cells
-- split column with multiple items to separated columns
-- redefine "MEASURED IN CWT" by multiplying by 100
-- make extreme large value more accessible by using log scale on "value"
-
 # Data wrangling for Strawberry and Pesticides
 
-- drop empty rows/columns, remove white space
-- rename colname of Pesticide to chemical in order to match the colname in strawberry data
-- use toupper() to capitalize all chemical names 
-- use pivot_longer() to make all toxins and levels into longer columns
-- use inner_join() to wrangle Pesticide and Strawberry dataset
+- remove empty/missing values and reduce white space in the cells
+- redefine "MEASURED IN CWT" by multiplying by 100
+- make extreme large value more accessible by using log scale on "value"
 
 \newpage
 
@@ -38,6 +30,7 @@ Our strawberry dataset is taking from the United States Department of Agricultur
 - You can also explore our shiny app here (https://lemony.shinyapps.io/ma615-midterm/)
 
 ```{r echo=FALSE}
+# Compare two variables by four plot
 GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5),lower=list(combo=wrap("facethist", binwidth=0.5)))
 ```
 
@@ -47,6 +40,7 @@ GGally::ggpairs(strawb1, columns=c(3,6), aes(color=strawb1[,3], alpha = 0.5),low
 - The following map is an example showing that both California and Florida have higher total amount of annual strawberry production in pounds than other states.
 
 ```{r}
+#produce map by specifice paras
 map(years = "2019", chemical = "NOP USDA CERTIFIED", measurement = "MEASURED IN LB")
 ```
 
@@ -117,6 +111,7 @@ plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
 - Data size shrank after wrangling (not able to match all chemicals);
 - We don't know how chemical usages are related to strawberry production, are they harmful or beneficial to strawberry production.
 - We did not characterize toxin levels into numeric levels because they are in natural language and people have different perspectives defining them.
+- Further exploration of data requests more advanced statistics methods -- EDA can be considered a hint of data analysis.
 
 
 # Conclusion {data-background="images/bg-04.png"}
@@ -127,10 +122,10 @@ plot5("MEASURED IN LB","Bee.Toxins","FLORIDA")
 
 # Thanks
 
-- Professor Haviland 
-- TA Bruce 
-- Our lovely MA-615 classmates
-- Our teammates
+- Professor Wright 
+- TA Bruce
+- Our lovely MA-615 classmates, especially for Yuli JIN.
+- Our hard working teammates
 
 # Citations
 
